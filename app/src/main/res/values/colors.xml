@@ -21,4 +21,21 @@
     <color name="cyan">#00FFFF</color>
     <color name="dark_cyan">#008B8B</color>
 
+
+    <color name="tile_bkgnd_0">@color/black</color>
+    <color name="tile_bkgnd_1">#C17D11</color>
+    <color name="tile_bkgnd_2">#CC0000</color>
+    <color name="tile_bkgnd_3">#F57900</color>
+    <color name="tile_bkgnd_4">#EDD400</color>
+    <color name="tile_bkgnd_5">#73D216</color>
+    <color name="tile_bkgnd_6">#3465A4</color>
+    <color name="tile_bkgnd_7">#75507B</color>
+    <color name="tile_bkgnd_8">#BABDB6</color>
+    <color name="tile_bkgnd_9">@color/white</color>
+    <color name="tile_bkgnd_gray">@color/tile_bkgnd_8</color>
+
+    <color name="gray_background">#C8C8C8</color>
+    <color name="gray_gradient_start">#A8A8A8</color>
+    <color name="gray_gradient_end">#484848</color>
+    <color name="title_text">@color/gray_gradient_start</color>
 </resources>

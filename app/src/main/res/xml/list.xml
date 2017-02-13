@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+<ListPreference
+    android:key="pref_size_list"
+    android:title="@string/pref_title_size"
+    android:defaultValue="3"
+    android:entries="@array/pref_size_list_titles"
+    android:entryValues="@array/pref_size_list_values"
+    android:negativeButtonText="@null"
+    android:positiveButtonText="@null" />
+
+</PreferenceScreen>

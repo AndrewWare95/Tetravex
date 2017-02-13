@@ -1,0 +1,103 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/gray_background">
+
+    <Space
+        android:id="@+id/top_margin"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_alignParentTop="true" />
+
+    <Space
+        android:id="@+id/bottom_margin"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_alignParentBottom="true" />
+
+    <LinearLayout
+        android:id="@+id/centered_grids"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_margin"
+        android:layout_below="@id/top_margin"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/target_board"
+            layout="@layout/board_classic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_above="@id/bottom_margin"
+            android:layout_below="@id/top_margin"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="76dp"
+            android:layout_height="147dp"
+            android:layout_marginTop="10dp"
+            android:layout_above="@id/bottom_margin"
+            android:layout_below="@id/top_margin"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Chronometer
+                android:id="@+id/timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/source_board"
+            layout="@layout/board_classic"
+            android:layout_marginRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/puzzle_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="80dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_gravity="center"
+        android:gravity="center|center_vertical"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <Button
+            android:id="@+id/puzzle_new_game_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_new_game"
+            android:drawablePadding="16dp"
+            android:onClick="newGameButtonClicked"
+            android:text="@string/new_game_btn_text" />
+
+        <Button
+            android:id="@+id/puzzle_scores_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_best_times"
+            android:drawablePadding="16dp"
+            android:onClick="puzzleScoresButtonClicked"
+            android:text="@string/scores_btn_text" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/pause"
+        android:layout_width="48dp"
+        android:layout_height="52dp"
+        android:onClick="pauseButtonClicked"
+        android:src="@drawable/pause"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

@@ -7,10 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.andware.tetravex.LeaderboardActivity;
-import com.example.andware.tetravex.LoginActivity;
-import com.example.andware.tetravex.R;
-
 public class MainMenu extends AppCompatActivity {
 
     @Override
@@ -37,7 +33,7 @@ public class MainMenu extends AppCompatActivity {
         classicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),SettingsActivity.class);
+                Intent intent = new Intent(view.getContext(),Classic.class);
                 startActivityForResult(intent, 0);
             }
         });
@@ -86,11 +82,5 @@ public class MainMenu extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
-
-
-
-
-
-
     }
 }
