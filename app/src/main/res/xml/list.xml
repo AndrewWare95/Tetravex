@@ -3,11 +3,17 @@
 
 <ListPreference
     android:key="pref_size_list"
-    android:title="@string/pref_title_size"
+    android:title="@string/title_size"
     android:defaultValue="3"
-    android:entries="@array/pref_size_list_titles"
-    android:entryValues="@array/pref_size_list_values"
+    android:entries="@array/size_list"
+    android:entryValues="@array/size_list_values"
     android:negativeButtonText="@null"
     android:positiveButtonText="@null" />
+
+    <CheckBoxPreference
+        android:key="pref_color_tiles"
+        android:title="@string/title_color_tiles"
+        android:summary="@string/description_color_tiles"
+        android:defaultValue="true" />
 
 </PreferenceScreen>

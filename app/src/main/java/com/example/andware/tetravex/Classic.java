@@ -53,7 +53,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_game);
-        //TetravexApp.injectActivity(this);
         mTimer = (Chronometer) findViewById(R.id.timer);
 
         // get the size of the board from the saved setting
