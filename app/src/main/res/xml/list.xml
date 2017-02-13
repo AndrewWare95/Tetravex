@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-<ListPreference
+    <ListPreference
     android:key="pref_size_list"
     android:title="@string/title_size"
     android:defaultValue="3"
@@ -15,5 +15,14 @@
         android:title="@string/title_color_tiles"
         android:summary="@string/description_color_tiles"
         android:defaultValue="true" />
+
+    <ListPreference
+        android:key="pref_difficulty"
+        android:title="@string/title_difficulty"
+        android:defaultValue="Medium"
+        android:entries="@array/difficulty_list"
+        android:entryValues="@array/difficulty_list_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
 
 </PreferenceScreen>

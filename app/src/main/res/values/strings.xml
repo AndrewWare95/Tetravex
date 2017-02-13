@@ -52,6 +52,7 @@
 
     <string name="pref_size_key" translatable="false">pref_size_list</string>
     <string name="pref_color_key" translatable="false">pref_color_tiles</string>
+    <string name="pref_difficulty_key" translatable="false">pref_difficulty_list</string>
 
 
     <string name="title_color_tiles">Colored tiles</string>
@@ -76,7 +77,18 @@
         <item>5</item>
     </string-array>
 
-    <string-array name="difficulty">
+    <string name="title_difficulty">Difficulty</string>
+    <string name="easy" >Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+
+    <string-array name="difficulty_list" translateable="false">
+        <item>@string/easy</item>
+        <item>@string/medium</item>
+        <item>@string/hard</item>
+    </string-array>
+
+    <string-array name="difficulty_list_values" translateable="false">
         <item>Easy</item>
         <item>Medium</item>
         <item>Hard</item>
