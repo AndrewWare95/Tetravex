@@ -71,6 +71,8 @@ public class BoardAdapter extends BaseAdapter {
         // there is a tile in this space, draw it
         if(tile != null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
+
+            /**this can be changed, taking 2 parameters (size + shape) for later.*/
             int tileLayoutId = getTileLayoutId(mPuzzle.getSize());
             tileView = inflater.inflate(tileLayoutId, parent, false);
             tileView.setTag(Constants.TAG_NUMBERED_TILE);
@@ -140,6 +142,21 @@ public class BoardAdapter extends BaseAdapter {
      * @param view the View containing the inflated tile layout
      * @param tile the POJO containing the backing Tile data
      */
+    private void setTileViewNumbersTriangle(View view, Tile tile){
+        TextView northTextView = (TextView)view.findViewById(R.id.tile_bottom);
+        northTextView.setText(String.valueOf(tile.getNorth()));
+        stylizeQuadrant(northTextView, tile.getNorth(), mPuzzle.isColor());
+
+        TextView eastTextView = (TextView)view.findViewById(R.id.tile_left);
+        eastTextView.setText(String.valueOf(tile.getEast()));
+        stylizeQuadrant(eastTextView, tile.getEast(), mPuzzle.isColor());
+
+        TextView westTextView = (TextView)view.findViewById(R.id.tile_right);
+        westTextView.setText(String.valueOf(tile.getWest()));
+        stylizeQuadrant(westTextView, tile.getWest(), mPuzzle.isColor());
+    }
+
+
     private void setTileViewNumbers(View view, Tile tile) {
         TextView northTextView = (TextView)view.findViewById(R.id.tile_north);
         northTextView.setText(String.valueOf(tile.getNorth()));
@@ -149,11 +166,11 @@ public class BoardAdapter extends BaseAdapter {
         southTextView.setText(String.valueOf(tile.getSouth()));
         stylizeQuadrant(southTextView, tile.getSouth(), mPuzzle.isColor());
 
-        TextView eastTextView = (TextView)view.findViewById(R.id.tile_east);
+        TextView eastTextView = (TextView)view.findViewById(R.id.tile_left);
         eastTextView.setText(String.valueOf(tile.getEast()));
         stylizeQuadrant(eastTextView, tile.getEast(), mPuzzle.isColor());
 
-        TextView westTextView = (TextView)view.findViewById(R.id.tile_west);
+        TextView westTextView = (TextView)view.findViewById(R.id.tile_right);
         westTextView.setText(String.valueOf(tile.getWest()));
         stylizeQuadrant(westTextView, tile.getWest(), mPuzzle.isColor());
     }
@@ -256,6 +273,21 @@ public class BoardAdapter extends BaseAdapter {
      * @param boardSize the size of the Tetravex board
      * @return the layout ID of the appropriate tile layout
      */
+    private  int getTileLayoutIdTriangle(int boardSize){
+        int layoutId;
+
+        switch (boardSize){
+            case 2:
+                layoutId = R.layout.triangle;
+                break;
+
+            default:
+                layoutId = R.layout.triangle;
+        }
+        return layoutId;
+    }
+
+
     private int getTileLayoutId(int boardSize) {
         int layoutId;
         switch (boardSize) {

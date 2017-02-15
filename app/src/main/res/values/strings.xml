@@ -76,6 +76,23 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+    
+    <string name="title_game_shape">Shape</string>
+    <string name="square">Square</string>
+    <string name="triangle">Triangle</string>
+    <string name="hexagon">Hexagon</string>
+
+    <string-array name="shape_list" translateable="false">
+        <item>@string/square</item>
+        <item>@string/triangle</item>
+        <item>@string/hexagon</item>
+    </string-array>
+    
+    <string-array name="shape_list_values" translateable="false">
+        <item>Square</item>
+        <item>Triangle</item>
+        <item>Hexagon</item>
+    </string-array>
 
     <string name="title_difficulty">Difficulty</string>
     <string name="easy" >Easy</string>
