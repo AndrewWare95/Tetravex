@@ -166,11 +166,11 @@ public class BoardAdapter extends BaseAdapter {
         southTextView.setText(String.valueOf(tile.getSouth()));
         stylizeQuadrant(southTextView, tile.getSouth(), mPuzzle.isColor());
 
-        TextView eastTextView = (TextView)view.findViewById(R.id.tile_left);
+        TextView eastTextView = (TextView)view.findViewById(R.id.tile_east);
         eastTextView.setText(String.valueOf(tile.getEast()));
         stylizeQuadrant(eastTextView, tile.getEast(), mPuzzle.isColor());
 
-        TextView westTextView = (TextView)view.findViewById(R.id.tile_right);
+        TextView westTextView = (TextView)view.findViewById(R.id.tile_west);
         westTextView.setText(String.valueOf(tile.getWest()));
         stylizeQuadrant(westTextView, tile.getWest(), mPuzzle.isColor());
     }
