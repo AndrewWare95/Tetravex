@@ -21,18 +21,19 @@
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_gravity="top"
-        android:background="@drawable/triangle_right"
-        android:paddingLeft="37dp"
+        android:background="@drawable/triangle_left"
+        android:paddingLeft="20dp"
         android:paddingTop="52dp"
         android:textSize="30dp"
         android:textColor="@color/black"
         android:text="7"/>
+    
     <TextView
         android:id="@+id/tile_right"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_gravity="left"
-        android:background="@drawable/triangle_left"
+        android:background="@drawable/triangle_right"
         android:paddingLeft="75dp"
         android:paddingTop="52dp"
         android:textSize="30dp"
