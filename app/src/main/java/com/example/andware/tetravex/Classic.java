@@ -96,9 +96,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         startActivityForResult(intent, 1);
     }
 
-    /**
-     * Re-start the timer from where it was left
-     */
     private void resumeTimer() {
         mPuzzle.setState(Game.PuzzleState.IN_PROGRESS);
         mTimer.setBase(SystemClock.elapsedRealtime() - mPausedTime);

@@ -2,13 +2,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-    android:key="pref_size_list"
-    android:title="@string/title_size"
-    android:defaultValue="3"
-    android:entries="@array/size_list"
-    android:entryValues="@array/size_list_values"
-    android:negativeButtonText="@null"
-    android:positiveButtonText="@null" />
+        android:key="pref_size_list"
+        android:title="@string/title_size"
+        android:defaultValue="3"
+        android:entries="@array/size_list"
+        android:entryValues="@array/size_list_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
 
     <CheckBoxPreference
         android:key="pref_color_tiles"

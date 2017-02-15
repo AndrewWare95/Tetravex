@@ -14,7 +14,7 @@
     <Space
         android:id="@+id/top_margin"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="25dp"
         android:layout_alignParentTop="true" />
 
     <Space
