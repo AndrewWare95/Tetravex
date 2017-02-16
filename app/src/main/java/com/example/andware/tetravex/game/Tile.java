@@ -7,6 +7,8 @@ public class Tile
     private int mWest;
     private int mEast;
     private int mSouth;
+    private int mNorth1;
+    private int mNorth2;
 
     /* Solution location */
     private int mX;
@@ -56,5 +58,21 @@ public class Tile
 
     public void setSouth(int mSouth) {
         this.mSouth = mSouth;
+    }
+
+    public int getNorth1() {
+        return mNorth1;
+    }
+
+    public void setNorth1(int north) {
+        this.mNorth1 = north;
+    }
+
+    public int getNorth2() {
+        return mNorth2;
+    }
+
+    public void setNorth2(int north) {
+        this.mNorth2 = north;
     }
 }

@@ -45,15 +45,18 @@ public class Game
                 mBoard[x][y] = new Tile(x, y);
             }
         }
-
-        /*for (int x = 0; x < mSize; x++){
+        /***
+        for (int x = 0; x < mSize; x++){
             for (int y = 0; y <mSize; y++){
                 int n = mRand.nextInt(RAND_COLOR_RANGE);
                 mBoard[x][y].setNorth(n);
                 mBoard[x][y].setEast(n);
                 mBoard[x][y].setWest(n);
+                mBoard[x][y].setSouth(n);
+                mBoard[x][y].setNorth1(n);
+                mBoard[x][y].setNorth2(n);
             }
-        }*/
+        }**/
 
         /**room for algorithm for triangle version here **/
 

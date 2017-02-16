@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -55,12 +56,20 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         setContentView(R.layout.activity_game);
         mTimer = (Chronometer) findViewById(R.id.timer);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            int gameType = extras.getInt("key");
+        }
+
         // get the size of the board from the saved setting
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //TODO
         String boardSize = settings.getString(getString(R.string.pref_size_key),
                 Constants.DEFAULT_SIZE);
         // access the setting to decide whether or not to color the tiles
         boolean colorTiles = settings.getBoolean(getString(R.string.pref_color_key), true);
+        //TODO
 
         mPuzzle = new Game(Integer.valueOf(boardSize));
         mPuzzle.setColor(colorTiles);
@@ -173,8 +182,10 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         mTargetGridView.setOnTouchListener(null);
 
         showPuzzleSolvedToast();
+        //TODO
         /*updateHighScores();
         hideStartingBoard();*/
+        //TODO
         showButtonsOnCompleted();
     }
 

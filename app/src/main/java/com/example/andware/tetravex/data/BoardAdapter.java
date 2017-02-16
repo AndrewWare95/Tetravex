@@ -19,9 +19,6 @@ import com.example.andware.tetravex.R;
 import com.example.andware.tetravex.game.Game;
 import com.example.andware.tetravex.game.Tile;
 
-/**
- * Adapter class for the target board and source board GridViews
- */
 public class BoardAdapter extends BaseAdapter {
     private Context mContext;
     private boolean mSourceBoard;
@@ -112,11 +109,6 @@ public class BoardAdapter extends BaseAdapter {
         return tileView;
     }
 
-    /**
-     * Get the width for a Tile's View
-     * @param parent the parent GridView object
-     * @return the measured width for the Tile
-     */
     private int getTileWidth(GridView parent) {
         int width;
 
@@ -136,25 +128,46 @@ public class BoardAdapter extends BaseAdapter {
         }
         return width;
     }
-
     /**
-     * Set the numbers of a Tile object
-     * @param view the View containing the inflated tile layout
-     * @param tile the POJO containing the backing Tile data
-     */
-    private void setTileViewNumbersTriangle(View view, Tile tile){
-        TextView northTextView = (TextView)view.findViewById(R.id.tile_bottom);
+    private void setTileViewNumbersHex(View view, Tile tile){
+        TextView northTextView = (TextView)view.findViewById(R.id.hex_bottom_left);
         northTextView.setText(String.valueOf(tile.getNorth()));
         stylizeQuadrant(northTextView, tile.getNorth(), mPuzzle.isColor());
 
-        TextView eastTextView = (TextView)view.findViewById(R.id.tile_left);
+        TextView eastTextView = (TextView)view.findViewById(R.id.hex_bottom_right);
         eastTextView.setText(String.valueOf(tile.getEast()));
         stylizeQuadrant(eastTextView, tile.getEast(), mPuzzle.isColor());
 
-        TextView westTextView = (TextView)view.findViewById(R.id.tile_right);
+        TextView westTextView = (TextView)view.findViewById(R.id.hex_left);
         westTextView.setText(String.valueOf(tile.getWest()));
         stylizeQuadrant(westTextView, tile.getWest(), mPuzzle.isColor());
-    }
+
+        TextView southTextView = (TextView)view.findViewById(R.id.hex_right);
+        southTextView.setText(String.valueOf(tile.getSouth()));
+        stylizeQuadrant(southTextView, tile.getSouth(), mPuzzle.isColor());
+
+        TextView topTextView = (TextView)view.findViewById(R.id.hex_top_left);
+        topTextView.setText(String.valueOf(tile.getNorth()));
+        stylizeQuadrant(topTextView, tile.getNorth(), mPuzzle.isColor());
+
+        TextView wTextView = (TextView)view.findViewById(R.id.hex_top_right);
+        wTextView.setText(String.valueOf(tile.getWest()));
+        stylizeQuadrant(wTextView, tile.getWest(), mPuzzle.isColor());
+    }**/
+    /**
+    private void setTileViewNumbersTriangle(View view, Tile tile){
+        TextView northTextView = (TextView)view.findViewById(R.id.tile_bottom_inverse);
+        northTextView.setText(String.valueOf(tile.getNorth()));
+        stylizeQuadrant(northTextView, tile.getNorth(), mPuzzle.isColor());
+
+        TextView eastTextView = (TextView)view.findViewById(R.id.tile_left_inverse);
+        eastTextView.setText(String.valueOf(tile.getEast()));
+        stylizeQuadrant(eastTextView, tile.getEast(), mPuzzle.isColor());
+
+        TextView westTextView = (TextView)view.findViewById(R.id.tile_right_inverse);
+        westTextView.setText(String.valueOf(tile.getWest()));
+        stylizeQuadrant(westTextView, tile.getWest(), mPuzzle.isColor());
+    }**/
 
 
     private void setTileViewNumbers(View view, Tile tile) {
@@ -273,19 +286,22 @@ public class BoardAdapter extends BaseAdapter {
      * @param boardSize the size of the Tetravex board
      * @return the layout ID of the appropriate tile layout
      */
+
+
+    /**
     private  int getTileLayoutIdTriangle(int boardSize){
         int layoutId;
 
         switch (boardSize){
             case 2:
-                layoutId = R.layout.triangle;
+                layoutId = R.layout.triangle_inverted;
                 break;
 
             default:
-                layoutId = R.layout.triangle;
+                layoutId = R.layout.triangle_inverted;
         }
         return layoutId;
-    }
+    }**/
 
 
     private int getTileLayoutId(int boardSize) {

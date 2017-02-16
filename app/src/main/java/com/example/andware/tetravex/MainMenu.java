@@ -34,6 +34,7 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),Classic.class);
+                intent.putExtra("key", 0);
                 startActivityForResult(intent, 0);
             }
         });
@@ -42,8 +43,9 @@ public class MainMenu extends AppCompatActivity {
         timeTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),SettingsActivity.class);
-                startActivityForResult(intent, 0);
+                Intent intent = new Intent(view.getContext(),Classic.class);
+                intent.putExtra("key", 1);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -51,8 +53,9 @@ public class MainMenu extends AppCompatActivity {
         unknownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),SettingsActivity.class);
-                startActivityForResult(intent, 0);
+                Intent intent = new Intent(view.getContext(),Classic.class);
+                intent.putExtra("key", 2);
+                startActivityForResult(intent, 2);
             }
         });
 
@@ -78,8 +81,11 @@ public class MainMenu extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),LoginActivity.class);
-                startActivityForResult(intent, 0);
+                //closes app
+                finish();
+                //brings to login, but pressing back brings you to main menu again
+                //Intent intent = new Intent(view.getContext(),LoginActivity.class);
+                //startActivityForResult(intent, 0);
             }
         });
     }
