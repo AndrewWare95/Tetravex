@@ -50,10 +50,11 @@
     <string name="howto_btn_text">How to play</string>
 
 
+
+    <!-- Settings -->
     <string name="pref_size_key" translatable="false">pref_size_list</string>
     <string name="pref_color_key" translatable="false">pref_color_tiles</string>
     <string name="pref_difficulty_key" translatable="false">pref_difficulty_list</string>
-
 
     <string name="title_color_tiles">Colored tiles</string>
     <string name="description_color_tiles">Each tile number has its own color</string>
@@ -111,4 +112,7 @@
         <item>Hard</item>
     </string-array>
     <string name="title_activity_classic">Classic</string>
+
+
+
 </resources>
