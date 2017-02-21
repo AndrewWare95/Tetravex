@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
@@ -23,17 +24,21 @@ import android.widget.Chronometer;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andware.tetravex.game.Game;
 import com.example.andware.tetravex.game.Tile;
 import com.example.andware.tetravex.data.BoardAdapter;
 
+import static com.example.andware.tetravex.PauseActivity.RESULT_QUIT_GAME;
+
 public class Classic extends Activity implements View.OnTouchListener, View.OnDragListener
 {
 
     static final int PAUSE_REQUEST = 1;
     private Game mPuzzle;
+    private int gameType = 0;
 
     private GridView mTargetGridView;
     private GridView mSourceGridView;
@@ -50,15 +55,27 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_game);
-        mTimer = (Chronometer) findViewById(R.id.timer);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int gameType = extras.getInt("key");
+            gameType = extras.getInt("key");
+        }
+
+        switch (gameType){
+            case 1:
+                setContentView(R.layout.activity_time_trial);
+                break;
+            case 2:
+                setContentView(R.layout.activity_arcade);
+                mTimer = (Chronometer) findViewById(R.id.timer);
+                break;
+            case 3:
+                default:
+                    setContentView(R.layout.activity_classic);
+                    mTimer = (Chronometer) findViewById(R.id.timer);
+                break;
         }
 
         // get the size of the board from the saved setting
@@ -79,12 +96,31 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
 
         formatTargetBoard();
         formatSourceBoard();
+
+        if ( gameType == 1){
+            countDownTimer();
+        }
+    }
+
+    private void countDownTimer(){
+        CountDownTimer cT =  new CountDownTimer(100000, 1000) {
+            TextView textView = (TextView) findViewById(R.id.timer);
+            public void onTick(long millisUntilFinished) {
+                String v = String.format("%02d", millisUntilFinished/60000);
+                int va = (int)( (millisUntilFinished%60000)/1000);
+                textView.setText("" +v+":"+String.format("%02d",va));
+            }
+
+            public void onFinish() {
+                textView.setText("Game Over!");
+            }
+        };
+        cT.start();
     }
 
     @Override
     public void onPause(){
         super.onPause();
-
         if (mPuzzle.getState().equals(Game.PuzzleState.IN_PROGRESS)) {
             mPuzzle.setState(Game.PuzzleState.PAUSED);
             pauseTimer();
@@ -117,6 +153,169 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         if (mPuzzle.getState().equals(Game.PuzzleState.PAUSED)) {
             mPuzzle.setState(Game.PuzzleState.IN_PROGRESS);
             resumeTimer();
+        }
+    }
+
+
+
+    private void puzzleSolvedActions() {
+        mTimer.stop();
+        mPuzzle.setState(Game.PuzzleState.COMPLETED);
+        // set the tiles to not be draggable
+        mTargetGridView.setOnTouchListener(null);
+        showPuzzleSolvedToast();
+        //TODO
+        /*updateHighScores();
+        hideStartingBoard();*/
+        //TODO
+        showButtonsOnCompleted();
+    }
+
+    private void showPuzzleSolvedToast() {
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(getLayoutInflater().inflate(R.layout.toast_complete, null));
+        toast.show();
+    }
+
+    private void showButtonsOnCompleted() {
+        LinearLayout buttons = (LinearLayout) findViewById(R.id.puzzle_buttons);
+        Animation fadeIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+        fadeIn.setDuration(Constants.BUTTONS_FADE_IN_MS);
+        buttons.startAnimation(fadeIn);
+        buttons.setVisibility(View.VISIBLE);
+    }
+
+    public void newGameButtonClicked(View view) {
+        Intent intent = new Intent(this, Classic.class);
+        intent.putExtra("key", 1);
+        startActivity(intent);
+        finish();
+    }
+
+    public void settings(){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void settingsPage(View view){
+        DialogInterface.OnClickListener dialogClickListener =
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                settings();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE: // fall-through
+                            default:
+                                break;
+                        }
+                    }
+                };
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setMessage(getResources().getString(R.string.dialog_enter_settings_page));
+        builder.setPositiveButton(getResources().getString(R.string.dialog_ok), dialogClickListener);
+        builder.setNegativeButton(getResources().getString(R.string.dialog_cancel), dialogClickListener);
+        builder.show();
+    }
+
+    public void quitGameClicked(View view) {
+        // confirm with dialog
+        DialogInterface.OnClickListener dialogClickListener =
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                finish();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE: // fall-through
+                            default:
+                                break;
+                        }
+                    }
+                };
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setMessage(getResources().getString(R.string.dialog_quit_game_prompt));
+        builder.setPositiveButton(getResources().getString(R.string.dialog_ok), dialogClickListener);
+        builder.setNegativeButton(getResources().getString(R.string.dialog_cancel), dialogClickListener);
+        builder.show();
+    }
+
+    /**
+     * Sets the adapter and number of columns for the target board GridView
+     */
+    private void formatTargetBoard() {
+        mTargetGridView.setAdapter(new BoardAdapter(this, false, mPuzzle));
+        mTargetGridView.setNumColumns(mPuzzle.getSize());
+        mTargetGridView.setOnTouchListener(this);
+    }
+
+    /**
+     * Set the adapter and number of columns for the source board GridView
+     */
+    private void formatSourceBoard() {
+        mSourceGridView.setAdapter(new BoardAdapter(this, true, mPuzzle));
+        mSourceGridView.setNumColumns(mPuzzle.getSize());
+        mSourceGridView.setOnTouchListener(this);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            GridView parent = (GridView) v;
+
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+            int position = parent.pointToPosition(x, y);
+            int relativePosition = position - parent.getFirstVisiblePosition();
+            final View target = parent.getChildAt(relativePosition);
+
+            // drag only numbered tiles
+            if (target != null &&
+                    target.getTag().equals(Constants.TAG_NUMBERED_TILE)) {
+                // start a drag event - on a separate thread to not interfere with the
+                // touch event already in progress
+
+                target.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ClipData data = ClipData.newPlainText("DragData", "");
+                        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(target);
+                        target.startDrag(data, shadowBuilder, target, 0);
+                        target.setVisibility(View.INVISIBLE);
+                    }
+                });
+
+                mDraggedTilePosition = parent.getPositionForView(target);
+                if (parent.equals(mSourceGridView)) {
+                    mDraggedTileStartingX = mPuzzle.getSize();
+                } else {
+                    mDraggedTileStartingX = 0;
+                }
+                mDraggedTile = mPuzzle.getTileByPosition(mDraggedTileStartingX, mDraggedTilePosition);
+                mPuzzle.setTile(mDraggedTileStartingX, mDraggedTilePosition, null);
+
+                // draw an empty slot where the dragged tile just was
+                ((BoardAdapter) parent.getAdapter()).notifyDataSetChanged();
+
+                // start the timer the first time a tile is touched
+                if (gameType == 0) {
+                    if (mPuzzle.getState().equals(Game.PuzzleState.NEW)) {
+                        mPuzzle.setState(Game.PuzzleState.IN_PROGRESS);
+                        mTimer.setBase(SystemClock.elapsedRealtime());
+                        mTimer.start();
+                    }
+                }
+            }
+            // report that the event was consumed
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -174,96 +373,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         return true;
     }
 
-    private void puzzleSolvedActions() {
-        mTimer.stop();
-        mPuzzle.setState(Game.PuzzleState.COMPLETED);
-
-        // set the tiles to not be draggable
-        mTargetGridView.setOnTouchListener(null);
-
-        showPuzzleSolvedToast();
-        //TODO
-        /*updateHighScores();
-        hideStartingBoard();*/
-        //TODO
-        showButtonsOnCompleted();
-    }
-
-    private void showPuzzleSolvedToast() {
-        Toast toast = new Toast(getApplicationContext());
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setView(getLayoutInflater().inflate(R.layout.toast_complete, null));
-        toast.show();
-    }
-
-    private void showButtonsOnCompleted() {
-        LinearLayout buttons = (LinearLayout) findViewById(R.id.puzzle_buttons);
-        Animation fadeIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
-        fadeIn.setDuration(Constants.BUTTONS_FADE_IN_MS);
-        buttons.startAnimation(fadeIn);
-        buttons.setVisibility(View.VISIBLE);
-    }
-
-    public void newGameButtonClicked(View view) {
-        Intent intent = new Intent(this, Classic.class);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            GridView parent = (GridView) v;
-
-            int x = (int) event.getX();
-            int y = (int) event.getY();
-            int position = parent.pointToPosition(x, y);
-            int relativePosition = position - parent.getFirstVisiblePosition();
-            final View target = parent.getChildAt(relativePosition);
-
-            // drag only numbered tiles
-            if (target != null &&
-                    target.getTag().equals(Constants.TAG_NUMBERED_TILE)) {
-                // start a drag event - on a separate thread to not interfere with the
-                // touch event already in progress
-
-                target.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ClipData data = ClipData.newPlainText("DragData", "");
-                        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(target);
-                        target.startDrag(data, shadowBuilder, target, 0);
-                        target.setVisibility(View.INVISIBLE);
-                    }
-                });
-
-                mDraggedTilePosition = parent.getPositionForView(target);
-                if (parent.equals(mSourceGridView)) {
-                    mDraggedTileStartingX = mPuzzle.getSize();
-                } else {
-                    mDraggedTileStartingX = 0;
-                }
-                mDraggedTile = mPuzzle.getTileByPosition(mDraggedTileStartingX, mDraggedTilePosition);
-                mPuzzle.setTile(mDraggedTileStartingX, mDraggedTilePosition, null);
-
-                // draw an empty slot where the dragged tile just was
-                ((BoardAdapter) parent.getAdapter()).notifyDataSetChanged();
-
-                // start the timer the first time a tile is touched
-                if (mPuzzle.getState().equals(Game.PuzzleState.NEW)) {
-                    mPuzzle.setState(Game.PuzzleState.IN_PROGRESS);
-                    mTimer.setBase(SystemClock.elapsedRealtime());
-                    mTimer.start();
-                }
-            }
-            // report that the event was consumed
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -302,25 +411,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         else {
             finish();
         }
-    }
-
-
-    /**
-     * Sets the adapter and number of columns for the target board GridView
-     */
-    private void formatTargetBoard() {
-        mTargetGridView.setAdapter(new BoardAdapter(this, false, mPuzzle));
-        mTargetGridView.setNumColumns(mPuzzle.getSize());
-        mTargetGridView.setOnTouchListener(this);
-    }
-
-    /**
-     * Set the adapter and number of columns for the source board GridView
-     */
-    private void formatSourceBoard() {
-        mSourceGridView.setAdapter(new BoardAdapter(this, true, mPuzzle));
-        mSourceGridView.setNumColumns(mPuzzle.getSize());
-        mSourceGridView.setOnTouchListener(this);
     }
 
     @Override

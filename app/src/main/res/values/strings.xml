@@ -34,7 +34,15 @@
     <string name="dialog_quit_game_prompt">Quit current game?</string>
     <string name="scores_deleted">Scores deleted</string>
 
+
+
+    <!-- In Game -->
     <string name="puzzle_complete">Puzzle Complete</string>
+    <string name="back">Back</string>
+    <string name="reset">Reset</string>
+    <string name="help">Help</string>
+    <string name="dialog_enter_settings_page">Settings page will reset puzzle</string>
+
 
 
     <!--Paused -->
