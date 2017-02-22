@@ -194,33 +194,13 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         finish();
     }
 
-    public void settings(){
-        Intent intent = new Intent(this, SettingsActivity.class);
+    public void settings(View view){
+        Intent intent = new Intent(this, HowTo.class);
+        intent.putExtra("key", gameType);
         startActivity(intent);
 
     }
 
-    public void settingsPage(View view){
-        DialogInterface.OnClickListener dialogClickListener =
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case DialogInterface.BUTTON_POSITIVE:
-                                settings();
-                                break;
-                            case DialogInterface.BUTTON_NEGATIVE: // fall-through
-                            default:
-                                break;
-                        }
-                    }
-                };
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-        builder.setMessage(getResources().getString(R.string.dialog_enter_settings_page));
-        builder.setPositiveButton(getResources().getString(R.string.dialog_ok), dialogClickListener);
-        builder.setNegativeButton(getResources().getString(R.string.dialog_cancel), dialogClickListener);
-        builder.show();
-    }
 
     public void quitGameClicked(View view) {
         // confirm with dialog

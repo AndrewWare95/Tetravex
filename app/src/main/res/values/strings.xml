@@ -35,7 +35,6 @@
     <string name="scores_deleted">Scores deleted</string>
 
 
-
     <!-- In Game -->
     <string name="puzzle_complete">Puzzle Complete</string>
     <string name="back">Back</string>
@@ -43,6 +42,11 @@
     <string name="help">Help</string>
     <string name="dialog_enter_settings_page">Settings page will reset puzzle</string>
 
+
+    <!-- How To -->
+    <string name="how_to_time_trial">Complete the puzzle before the timer runs out</string>
+    <string name="how_to_classic">Complete the puzzle</string>
+    <string name="how_to_arcade">Complete as many puzzles as possible before the timer runs out</string>
 
 
     <!--Paused -->
@@ -56,7 +60,6 @@
     <string name="scores_btn_text">Scores</string>
     <string name="settings_btn_text">Settings</string>
     <string name="howto_btn_text">How to play</string>
-
 
 
     <!-- Settings -->
@@ -85,7 +88,7 @@
         <item>4</item>
         <item>5</item>
     </string-array>
-    
+
     <string name="title_game_shape">Shape</string>
     <string name="square">Square</string>
     <string name="triangle">Triangle</string>
@@ -96,7 +99,7 @@
         <item>@string/triangle</item>
         <item>@string/hexagon</item>
     </string-array>
-    
+
     <string-array name="shape_list_values" translateable="false">
         <item>Square</item>
         <item>Triangle</item>
@@ -104,7 +107,7 @@
     </string-array>
 
     <string name="title_difficulty">Difficulty</string>
-    <string name="easy" >Easy</string>
+    <string name="easy">Easy</string>
     <string name="medium">Medium</string>
     <string name="hard">Hard</string>
 
@@ -120,7 +123,7 @@
         <item>Hard</item>
     </string-array>
     <string name="title_activity_classic">Classic</string>
-
+    <string name="title_activity_how_to">HowTo</string>
 
 
 </resources>

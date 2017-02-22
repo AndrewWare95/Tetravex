@@ -17,8 +17,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="SettingsScreen" parent="android:Theme.Holo">
-    </style>
+    <style name="SettingsScreen" parent="android:Theme.Holo"></style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
