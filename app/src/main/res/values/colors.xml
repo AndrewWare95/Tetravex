@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0c87fa</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#3B74FF</color>
+    <color name="colorPrimaryDark">#185AFF</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="helpButtonOutside">#7E0800</color>
+    <color name="helpButtonInside">#D21609</color>
+    <color name="helpButtonInsideShaded">#F05E53</color>
+    <color name="helpButtonClick">#FF3021</color>
 
     <color name="colorPrimaryAlternative">#0c8f7a</color>
     <color name="colorPrimaryDarkAlternative">#159204</color>
@@ -18,7 +23,28 @@
     <color name="bright_green">#02D8B0</color>
     <color name="button_green">#10a54a</color>
 
+
+    <color name="under_header">#12A2A2</color>
+    <color name="top_header">#008B8B</color>
+
     <color name="cyan">#00FFFF</color>
     <color name="dark_cyan">#008B8B</color>
 
+
+    <color name="tile_bkgnd_0">@color/black</color>
+    <color name="tile_bkgnd_1">#C17D11</color>
+    <color name="tile_bkgnd_2">#CC0000</color>
+    <color name="tile_bkgnd_3">#F57900</color>
+    <color name="tile_bkgnd_4">#EDD400</color>
+    <color name="tile_bkgnd_5">#73D216</color>
+    <color name="tile_bkgnd_6">#3465A4</color>
+    <color name="tile_bkgnd_7">#75507B</color>
+    <color name="tile_bkgnd_8">#BABDB6</color>
+    <color name="tile_bkgnd_9">@color/white</color>
+    <color name="tile_bkgnd_gray">@color/tile_bkgnd_8</color>
+
+    <color name="gray_background">#C8C8C8</color>
+    <color name="gray_gradient_start">#A8A8A8</color>
+    <color name="gray_gradient_end">#484848</color>
+    <color name="title_text">@color/gray_gradient_start</color>
 </resources>

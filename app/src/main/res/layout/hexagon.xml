@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tile_2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/hex_top_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/hexagon_top_right"
+        android:paddingLeft="65dp"
+        android:paddingTop="20dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:text="3"/>
+
+    <TextView
+        android:id="@+id/hex_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:background="@drawable/hexagon_right"
+        android:paddingLeft="85dp"
+        android:paddingTop="50dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:text="8"/>
+    <TextView
+        android:id="@+id/hex_bottom_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:background="@drawable/hexagon_bottom_right"
+        android:paddingLeft="65dp"
+        android:paddingTop="80dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:text="6"/>
+
+    <TextView
+        android:id="@+id/hex_top_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/hexagon_top_left"
+        android:paddingLeft="30dp"
+        android:paddingTop="20dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:text="3"/>
+
+    <TextView
+        android:id="@+id/hex_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:background="@drawable/hexagon_left"
+        android:paddingLeft="15dp"
+        android:paddingTop="50dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:text="8"/>
+
+    <TextView
+        android:id="@+id/hex_bottom_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:background="@drawable/hexagon_bottom_left"
+        android:paddingLeft="30dp"
+        android:paddingTop="80dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:text="6"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>

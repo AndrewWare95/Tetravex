@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_landscape"
+    android:gravity="top"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+
+    <Space
+        android:id="@+id/top_margin"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_alignParentTop="true" />
+
+    <Space
+        android:id="@+id/bottom_margin"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true" />
+
+    <Space
+        android:id="@+id/left_margin"
+        android:layout_width="140dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        tools:ignore="RtlHardcoded" />
+
+    <Space
+        android:id="@+id/right_margin"
+        android:layout_width="140dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        tools:ignore="RtlHardcoded" />
+
+    <LinearLayout
+        android:layout_above="@id/bottom_margin"
+        android:layout_below="@id/top_margin"
+        android:layout_toRightOf="@id/left_margin"
+        android:layout_toLeftOf="@id/right_margin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        tools:ignore="RtlHardcoded">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/resume_game"
+            android:textSize="25sp"
+            android:background="@drawable/buttonclick"
+            android:id="@+id/resumeButton"
+            android:layout_marginBottom="20dp"
+            android:onClick="resumeButtonClicked"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="@string/new_game_btn_text"
+            android:background="@drawable/buttonclick"
+            android:id="@+id/classicButton"
+            android:layout_marginBottom="20dp"
+            android:onClick="newGameButtonClicked"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/discard_puzzle"
+            android:textSize="25sp"
+            android:background="@drawable/buttonclick"
+            android:id="@+id/exitMainButton"
+            android:onClick="quitGameButtonClicked"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

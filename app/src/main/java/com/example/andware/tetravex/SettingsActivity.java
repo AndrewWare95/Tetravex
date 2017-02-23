@@ -1,38 +1,87 @@
 package com.example.andware.tetravex;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.os.Build;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.view.WindowManager;
 
-import com.example.andware.tetravex.R;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends PreferenceActivity {
 
-    Spinner spinner1;
-    ArrayAdapter<CharSequence> adapter;
+    private static final boolean ALWAYS_SIMPLE_PREFS = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-        spinner1 = (Spinner) findViewById(R.id.spinnerDifficulty);
-        adapter = ArrayAdapter.createFromResource(this, R.array.difficulty, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner1.setAdapter(adapter);
-        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getBaseContext(),parent.getItemIdAtPosition(position)+" selected", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent){
-
-            }
-        });
+        this.getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        setupSimplePreferencesScreen();
+    }
+
+    private void setupSimplePreferencesScreen() {
+        if (!isSimplePreferences(this)) {
+            return;
+        }
+        addPreferencesFromResource(R.xml.list);
+        bindPreferenceSummaryToValue(findPreference("pref_size_list"));
+        bindPreferenceSummaryToValue(findPreference("pref_difficulty"));
+        bindPreferenceSummaryToValue(findPreference("pref_shape"));
+    }
+
+    @Override
+    public boolean onIsMultiPane() {
+        return isXLargeTablet(this) && !isSimplePreferences(this);
+    }
+
+    private static boolean isXLargeTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
+    }
+
+    private static boolean isSimplePreferences(Context context) {
+        return ALWAYS_SIMPLE_PREFS || Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB || !isXLargeTablet(context);
+    }
+
+    private static void bindPreferenceSummaryToValue(Preference preference) {
+        // Set the listener to watch for value changes.
+        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+
+        // Trigger the listener immediately with the preference's current value.
+        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+                PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
+    }
+
+    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object value) {
+            String stringValue = value.toString();
+
+            if (preference instanceof ListPreference) {
+                // For list preferences, look up the correct display value in the preference's 'entries' list.
+                ListPreference listPreference = (ListPreference) preference;
+                int index = listPreference.findIndexOfValue(stringValue);
+
+                // Set the summary to reflect the new value.
+                preference.setSummary(
+                        index >= 0
+                                ? listPreference.getEntries()[index]
+                                : null);
+            }
+            else {
+                // For all other preferences, set the summary to the value's simple string representation.
+                preference.setSummary(stringValue);
+            }
+            return true;
+        }
+    };
 }

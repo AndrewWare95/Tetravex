@@ -13,9 +13,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_main_menu">MainMenu</string>
-    <string name="title_activity_leaderboard">LeaderboardActivity</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_main_menu">Main Menu</string>
+    <string name="title_activity_leaderboard">Leaderboard</string>
+    <string name="title_activity_settings">Settings</string>
 
     <string name="classic">Classic</string>
     <string name="time_trial">Time Trial</string>
@@ -23,11 +23,109 @@
     <string name="settings">Settings</string>
     <string name="exit">Exit</string>
     <string name="arcade">Arcade</string>
+    <string name="text_new_game_btn">New Game</string>
+    <string name="resume_game">Resume Game</string>
+    <string name="discard_puzzle">Discard Puzzle</string>
 
-    <string-array name="difficulty">
+
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_reset_scores_prompt">Reset high scores?</string>
+    <string name="dialog_quit_game_prompt">Quit current game?</string>
+    <string name="scores_deleted">Scores deleted</string>
+
+
+    <!-- In Game -->
+    <string name="puzzle_complete">Puzzle Complete</string>
+    <string name="puzzle_failed">Puzzle Failed</string>
+    <string name="back">Back</string>
+    <string name="reset">Reset</string>
+    <string name="help">Help</string>
+    <string name="dialog_enter_settings_page">Settings page will reset puzzle</string>
+
+
+    <!-- How To -->
+    <string name="how_to_time_trial">Complete the puzzle before the timer runs out</string>
+    <string name="how_to_classic">Complete the puzzle</string>
+    <string name="how_to_arcade">Complete as many puzzles as possible before the timer runs out</string>
+    <string name="help_button">Help ?</string>
+
+
+    <!--Paused -->
+    <string name="paused">Paused</string>
+    <string name="resume_btn_text">Resume puzzle</string>
+    <string name="quit_btn_text">Discard puzzle</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title" translatable="false">Tetravex</string>
+    <string name="new_game_btn_text">New puzzle</string>
+    <string name="scores_btn_text">Scores</string>
+    <string name="settings_btn_text">Settings</string>
+    <string name="howto_btn_text">How to play</string>
+
+
+    <!-- Settings -->
+    <string name="pref_size_key" translatable="false">pref_size_list</string>
+    <string name="pref_color_key" translatable="false">pref_color_tiles</string>
+    <string name="pref_difficulty_key" translatable="false">pref_difficulty_list</string>
+
+    <string name="title_color_tiles">Colored tiles</string>
+    <string name="description_color_tiles">Each tile number has its own color</string>
+
+    <string name="title_size">Size</string>
+    <string name="two_x_two" translatable="false">2 x 2</string>
+    <string name="three_x_three" translatable="false">3 x 3</string>
+    <string name="four_x_four" translatable="false">4 x 4</string>
+    <string name="five_x_five" translatable="false">5 x 5</string>
+
+    <string-array name="size_list" translatable="false">
+        <item>@string/two_x_two</item>
+        <item>@string/three_x_three</item>
+        <item>@string/four_x_four</item>
+        <item>@string/five_x_five</item>
+    </string-array>
+    <string-array name="size_list_values" translatable="false">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string name="title_game_shape">Shape</string>
+    <string name="square">Square</string>
+    <string name="triangle">Triangle</string>
+    <string name="hexagon">Hexagon</string>
+
+    <string-array name="shape_list" translateable="false">
+        <item>@string/square</item>
+        <item>@string/triangle</item>
+        <item>@string/hexagon</item>
+    </string-array>
+
+    <string-array name="shape_list_values" translateable="false">
+        <item>Square</item>
+        <item>Triangle</item>
+        <item>Hexagon</item>
+    </string-array>
+
+    <string name="title_difficulty">Difficulty</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+
+    <string-array name="difficulty_list" translateable="false">
+        <item>@string/easy</item>
+        <item>@string/medium</item>
+        <item>@string/hard</item>
+    </string-array>
+
+    <string-array name="difficulty_list_values" translateable="false">
         <item>Easy</item>
         <item>Medium</item>
         <item>Hard</item>
     </string-array>
     <string name="title_activity_classic">Classic</string>
+    <string name="title_activity_how_to">HowTo</string>
+
+
 </resources>

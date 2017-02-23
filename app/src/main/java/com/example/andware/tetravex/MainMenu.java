@@ -7,10 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.andware.tetravex.LeaderboardActivity;
-import com.example.andware.tetravex.LoginActivity;
-import com.example.andware.tetravex.R;
-
 public class MainMenu extends AppCompatActivity {
 
     @Override
@@ -37,7 +33,8 @@ public class MainMenu extends AppCompatActivity {
         classicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),SettingsActivity.class);
+                Intent intent = new Intent(view.getContext(),Classic.class);
+                intent.putExtra("key", 0);
                 startActivityForResult(intent, 0);
             }
         });
@@ -46,8 +43,9 @@ public class MainMenu extends AppCompatActivity {
         timeTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),SettingsActivity.class);
-                startActivityForResult(intent, 0);
+                Intent intent = new Intent(view.getContext(),Classic.class);
+                intent.putExtra("key", 1);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -55,8 +53,9 @@ public class MainMenu extends AppCompatActivity {
         unknownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),SettingsActivity.class);
-                startActivityForResult(intent, 0);
+                Intent intent = new Intent(view.getContext(),Classic.class);
+                intent.putExtra("key", 2);
+                startActivityForResult(intent, 2);
             }
         });
 
@@ -82,15 +81,12 @@ public class MainMenu extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),LoginActivity.class);
-                startActivityForResult(intent, 0);
+                //closes app
+                finish();
+                //brings to login, but pressing back brings you to main menu again
+                //Intent intent = new Intent(view.getContext(),LoginActivity.class);
+                //startActivityForResult(intent, 0);
             }
         });
-
-
-
-
-
-
     }
 }
