@@ -48,6 +48,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     private int mDraggedTilePosition = -1;
 
     // used for the puzzle timer
+    private CountDownTimer cT;
     private Chronometer mTimer;
     private long mPausedTime = 0;
 
@@ -103,7 +104,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     }
 
     private void countDownTimer(){
-        CountDownTimer cT =  new CountDownTimer(100000, 1000) {
+        cT =  new CountDownTimer(40000, 1000) {
             TextView textView = (TextView) findViewById(R.id.timer);
             public void onTick(long millisUntilFinished) {
                 String v = String.format("%02d", millisUntilFinished/60000);
@@ -113,6 +114,10 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
 
             public void onFinish() {
                 textView.setText("Game Over!");
+                showPuzzleFailedToast();
+                //// TODO: 22/02/2017
+                showButtonsOnCompleted();
+                cancel();
             }
         };
         cT.start();
@@ -159,7 +164,22 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
 
 
     private void puzzleSolvedActions() {
-        mTimer.stop();
+
+
+        switch (gameType){
+            case 1: //time trial
+                cT.cancel();
+                break;
+            case 2: // arcade
+
+                break;
+            case 3:
+            default:
+                mTimer.stop();
+                break;
+        }
+
+
         mPuzzle.setState(Game.PuzzleState.COMPLETED);
         // set the tiles to not be draggable
         mTargetGridView.setOnTouchListener(null);
@@ -179,6 +199,14 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         toast.show();
     }
 
+    private void showPuzzleFailedToast(){
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(getLayoutInflater().inflate(R.layout.toast_failed, null));
+        toast.show();
+    }
+
     private void showButtonsOnCompleted() {
         LinearLayout buttons = (LinearLayout) findViewById(R.id.puzzle_buttons);
         Animation fadeIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
@@ -194,7 +222,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         finish();
     }
 
-    public void settings(View view){
+    public void helpButton(View view){
         Intent intent = new Intent(this, HowTo.class);
         intent.putExtra("key", gameType);
         startActivity(intent);

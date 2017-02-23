@@ -37,6 +37,7 @@
 
     <!-- In Game -->
     <string name="puzzle_complete">Puzzle Complete</string>
+    <string name="puzzle_failed">Puzzle Failed</string>
     <string name="back">Back</string>
     <string name="reset">Reset</string>
     <string name="help">Help</string>
@@ -47,6 +48,7 @@
     <string name="how_to_time_trial">Complete the puzzle before the timer runs out</string>
     <string name="how_to_classic">Complete the puzzle</string>
     <string name="how_to_arcade">Complete as many puzzles as possible before the timer runs out</string>
+    <string name="help_button">Help ?</string>
 
 
     <!--Paused -->

@@ -4,6 +4,11 @@
     <color name="colorPrimaryDark">#185AFF</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="helpButtonOutside">#7E0800</color>
+    <color name="helpButtonInside">#D21609</color>
+    <color name="helpButtonInsideShaded">#F05E53</color>
+    <color name="helpButtonClick">#FF3021</color>
+
     <color name="colorPrimaryAlternative">#0c8f7a</color>
     <color name="colorPrimaryDarkAlternative">#159204</color>
 
