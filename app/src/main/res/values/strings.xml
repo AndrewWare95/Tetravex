@@ -42,6 +42,7 @@
     <string name="reset">Reset</string>
     <string name="help">Help</string>
     <string name="dialog_enter_settings_page">Settings page will reset puzzle</string>
+    <string name="game_over">Game Over!</string>
 
 
     <!-- How To -->

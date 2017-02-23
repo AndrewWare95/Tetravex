@@ -31,11 +31,9 @@ import com.example.andware.tetravex.game.Game;
 import com.example.andware.tetravex.game.Tile;
 import com.example.andware.tetravex.data.BoardAdapter;
 
-import static com.example.andware.tetravex.PauseActivity.RESULT_QUIT_GAME;
 
 public class Classic extends Activity implements View.OnTouchListener, View.OnDragListener
 {
-
     static final int PAUSE_REQUEST = 1;
     private Game mPuzzle;
     private int gameType = 0;
@@ -51,6 +49,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     private CountDownTimer cT;
     private Chronometer mTimer;
     private long mPausedTime = 0;
+    private long timeRemaining = 0;
 
 
     @Override
@@ -103,18 +102,42 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         }
     }
 
+    private void countDownTimerGame() {
+        cT = new CountDownTimer(40000, 1000) {
+            TextView textView = (TextView) findViewById(R.id.timer);
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeRemaining = millisUntilFinished;
+                String mins = String.format("%02d", timeRemaining/60000);
+                int sec = (int)( (timeRemaining%60000)/1000);
+                textView.setText("" +mins+":"+String.format("%02d",sec));
+            }
+
+            @Override
+            public void onFinish() {
+                textView.setText(R.string.game_over);
+                showPuzzleFailedToast();
+                //// TODO: 22/02/2017
+                showButtonsOnCompleted();
+                cancel();
+            }
+        };
+        cT.start();
+
+    }
+
     private void countDownTimer(){
         cT =  new CountDownTimer(40000, 1000) {
             TextView textView = (TextView) findViewById(R.id.timer);
             public void onTick(long millisUntilFinished) {
+                timeRemaining = millisUntilFinished;
                 String v = String.format("%02d", millisUntilFinished/60000);
                 int va = (int)( (millisUntilFinished%60000)/1000);
                 textView.setText("" +v+":"+String.format("%02d",va));
             }
-
             public void onFinish() {
-                textView.setText("Game Over!");
-                showPuzzleFailedToast();
+                textView.setText(R.string.game_over);
+                //showPuzzleFailedToast();
                 //// TODO: 22/02/2017
                 showButtonsOnCompleted();
                 cancel();
@@ -164,8 +187,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
 
 
     private void puzzleSolvedActions() {
-
-
         switch (gameType){
             case 1: //time trial
                 cT.cancel();
@@ -178,7 +199,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 mTimer.stop();
                 break;
         }
-
 
         mPuzzle.setState(Game.PuzzleState.COMPLETED);
         // set the tiles to not be draggable
@@ -217,7 +237,24 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
 
     public void newGameButtonClicked(View view) {
         Intent intent = new Intent(this, Classic.class);
-        intent.putExtra("key", 1);
+        switch (gameType){
+            case 1: //time trial
+                String time = cT.toString();
+                Log.d("HELLO", time);
+                //cT.cancel();
+                intent.putExtra("key", 1);
+                break;
+            case 2: // arcade
+                //String time = cT.toString();
+                //Log.d("HELLO", time);
+                //intent.putExtra("timeCarriedOver", time);
+                intent.putExtra("key", 2);
+                break;
+            case 3:
+            default:
+                mTimer.stop();
+                break;
+        }
         startActivity(intent);
         finish();
     }
@@ -239,6 +276,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
+                                cT.cancel();
                                 finish();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE: // fall-through
@@ -392,6 +430,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                         public void onClick(DialogInterface dialog, int selection) {
                             switch (selection) {
                                 case DialogInterface.BUTTON_POSITIVE:
+                                    cT.cancel();
                                     finish();
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:

@@ -45,15 +45,17 @@
             android:theme="@style/SettingsScreen" />
         <activity
             android:name=".Classic"
+            android:noHistory="true"
             android:screenOrientation="landscape" />
-        <activity android:name=".game.Game" />
+        <activity
+            android:name=".game.Game" />
         <activity
             android:name=".PauseActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".HowTo"
             android:label="@string/title_activity_how_to"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
