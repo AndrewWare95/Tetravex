@@ -63,7 +63,7 @@ public class MainMenu extends AppCompatActivity {
         leaderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),LeaderboardActivity.class);
+                Intent intent = new Intent(view.getContext(),LeaderboardMenu.class);
                 startActivityForResult(intent, 0);
             }
         });

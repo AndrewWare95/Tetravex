@@ -17,7 +17,7 @@
         android:defaultValue="true" />
 
     <ListPreference
-        android:key="pref_difficulty"
+        android:key="pref_difficulty_list"
         android:title="@string/title_difficulty"
         android:defaultValue="Medium"
         android:entries="@array/difficulty_list"
@@ -26,7 +26,7 @@
         android:positiveButtonText="@null" />
 
     <ListPreference
-        android:key="pref_shape"
+        android:key="pref_shape_list"
         android:title="@string/title_game_shape"
         android:defaultValue="Square"
         android:entries="@array/shape_list"

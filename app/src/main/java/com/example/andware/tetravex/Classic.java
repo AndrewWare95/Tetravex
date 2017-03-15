@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.CountDownTimer;
+import android.os.Parcelable;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
@@ -20,8 +21,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,9 +50,14 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
 
     // used for the puzzle timer
     private CountDownTimer cT;
+    private long timeRemaining;
+    private String minutes;
+    private String type;
+    private int seconds;
+    private int counter = 0;
     private Chronometer mTimer;
     private long mPausedTime = 0;
-    private long timeRemaining = 0;
+    DatabaseManager myDb;
 
 
     @Override
@@ -57,22 +65,41 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         super.onCreate(savedInstanceState);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        myDb = new DatabaseManager(this);
 
+        TextView puzzleCounter, puzzleCounterValue;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             gameType = extras.getInt("key");
+            if (gameType == 2 || gameType == 3){
+                counter = extras.getInt("counter");
+            }
         }
 
         switch (gameType){
             case 1:
                 setContentView(R.layout.activity_time_trial);
+                type = "Time Trial";
                 break;
             case 2:
+                type = "Arcade";
                 setContentView(R.layout.activity_arcade);
-                mTimer = (Chronometer) findViewById(R.id.timer);
+                puzzleCounter = (TextView) findViewById(R.id.puzzles_completed_text);
+                puzzleCounterValue = (TextView) findViewById(R.id.puzzles_completed_value);
+                puzzleCounter.setText((R.string.puzzles_completed));
+                puzzleCounterValue.setText(Integer.toString(counter));
                 break;
             case 3:
+                type = "Arcade";
+                setContentView(R.layout.activity_arcade);
+                puzzleCounter = (TextView) findViewById(R.id.puzzles_completed_text);
+                puzzleCounter.setText(R.string.puzzles_completed);
+                puzzleCounterValue = (TextView) findViewById(R.id.puzzles_completed_value);
+                puzzleCounterValue.setText(Integer.toString(counter));
+                break;
+            case 4:
                 default:
+                    type = "Classic";
                     setContentView(R.layout.activity_classic);
                     mTimer = (Chronometer) findViewById(R.id.timer);
                 break;
@@ -97,43 +124,72 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         formatTargetBoard();
         formatSourceBoard();
 
-        if ( gameType == 1){
-            countDownTimer();
+        if (gameType == 1){
+            countDownTimer(100000);
+        }
+        else if (gameType == 2){
+            countDownTimer(300000);
+        }
+        else if (gameType == 3){
+            timeRemaining = extras.getLong("timeRemain");
+            countDownTimerGame();
+        }
+    }
+
+    public void addToLeaderboard(){
+
+        int size = mPuzzle.getSize();
+        String grid = size + " x " + size;
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String difficulty = settings.getString(getString(R.string.pref_difficulty_key), Constants.DEFAULT_DIFFICULTY);
+        String shape = settings.getString(getString(R.string.pref_shape_key), Constants.DEFAULT_SHAPE);
+        boolean isInserted;
+        if (type.matches("Classic")){
+             isInserted = myDb.intsertData("Testing", minutes+":"+seconds, "TestDate", difficulty, grid, shape);
+        }
+        else if (type.matches("Time Trial")){
+            isInserted = myDb.intsertData("Testing", String.valueOf(timeRemaining), "TestDate", difficulty, grid, shape);
+        }
+        else {
+            isInserted = myDb.intsertData("Testing", String.valueOf(counter), "TestDate", difficulty, grid, shape);
+        }
+
+        if (isInserted){
+            Toast.makeText(Classic.this, "Data Inserted", Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(Classic.this, "It didn't work", Toast.LENGTH_LONG).show();
         }
     }
 
     private void countDownTimerGame() {
-        cT = new CountDownTimer(40000, 1000) {
+        cT = new CountDownTimer(timeRemaining, 1000) {
             TextView textView = (TextView) findViewById(R.id.timer);
             @Override
             public void onTick(long millisUntilFinished) {
                 timeRemaining = millisUntilFinished;
-                String mins = String.format("%02d", timeRemaining/60000);
-                int sec = (int)( (timeRemaining%60000)/1000);
-                textView.setText("" +mins+":"+String.format("%02d",sec));
+                minutes = String.format("%02d", millisUntilFinished/60000);
+                seconds = (int)( (millisUntilFinished%60000)/1000);
+                textView.setText("" +minutes+":"+String.format("%02d",seconds));
             }
-
             @Override
             public void onFinish() {
-                textView.setText(R.string.game_over);
-                showPuzzleFailedToast();
-                //// TODO: 22/02/2017
-                showButtonsOnCompleted();
+                addToLeaderboard();
+                textView.setText("Number of puzzles completed : "+counter);
                 cancel();
             }
         };
         cT.start();
-
     }
 
-    private void countDownTimer(){
-        cT =  new CountDownTimer(40000, 1000) {
+    private void countDownTimer(long time){
+        cT =  new CountDownTimer(time, 1000) {
             TextView textView = (TextView) findViewById(R.id.timer);
             public void onTick(long millisUntilFinished) {
                 timeRemaining = millisUntilFinished;
-                String v = String.format("%02d", millisUntilFinished/60000);
-                int va = (int)( (millisUntilFinished%60000)/1000);
-                textView.setText("" +v+":"+String.format("%02d",va));
+                minutes = String.format("%02d", millisUntilFinished/60000);
+                seconds = (int)( (millisUntilFinished%60000)/1000);
+                textView.setText("" +minutes+":"+String.format("%02d",seconds));
             }
             public void onFinish() {
                 textView.setText(R.string.game_over);
@@ -184,31 +240,46 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         }
     }
 
-
-
     private void puzzleSolvedActions() {
-        switch (gameType){
-            case 1: //time trial
+        if (gameType == 1){//time trial
+            addToLeaderboard();
+            cT.cancel();
+            mPuzzle.setState(Game.PuzzleState.COMPLETED);
+            // set the tiles to not be draggable
+            mTargetGridView.setOnTouchListener(null);
+            showPuzzleSolvedToast();
+            //TODO
+                /*hideStartingBoard();*/
+            //TODO
+            showButtonsOnCompleted();
+        }
+        else if (gameType == 2 || gameType == 3){//arcade
+            counter++;
+            mPuzzle.setState(Game.PuzzleState.COMPLETED);
+            mTargetGridView.setOnTouchListener(null);
+            Intent intent = new Intent(this, Classic.class);
+            intent.putExtra("key", 3);
+            intent.putExtra("counter", counter);
+            intent.putExtra("timeRemain", timeRemaining);
+            startActivity(intent);
+            finish();
+            if (gameType == 3){
                 cT.cancel();
-                break;
-            case 2: // arcade
-
-                break;
-            case 3:
-            default:
-                mTimer.stop();
-                break;
+            }
         }
 
-        mPuzzle.setState(Game.PuzzleState.COMPLETED);
-        // set the tiles to not be draggable
-        mTargetGridView.setOnTouchListener(null);
-        showPuzzleSolvedToast();
-        //TODO
-        /*updateHighScores();
-        hideStartingBoard();*/
-        //TODO
-        showButtonsOnCompleted();
+        else{
+            addToLeaderboard();
+            mTimer.stop();
+            mPuzzle.setState(Game.PuzzleState.COMPLETED);
+            // set the tiles to not be draggable
+            mTargetGridView.setOnTouchListener(null);
+            showPuzzleSolvedToast();
+            //TODO
+                /*hideStartingBoard();*/
+            //TODO
+            showButtonsOnCompleted();
+        }
     }
 
     private void showPuzzleSolvedToast() {
@@ -244,13 +315,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 //cT.cancel();
                 intent.putExtra("key", 1);
                 break;
-            case 2: // arcade
-                //String time = cT.toString();
-                //Log.d("HELLO", time);
-                //intent.putExtra("timeCarriedOver", time);
-                intent.putExtra("key", 2);
-                break;
-            case 3:
+            case 4:
             default:
                 mTimer.stop();
                 break;

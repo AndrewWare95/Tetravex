@@ -47,8 +47,7 @@
             android:name=".Classic"
             android:noHistory="true"
             android:screenOrientation="landscape" />
-        <activity
-            android:name=".game.Game" />
+        <activity android:name=".game.Game" />
         <activity
             android:name=".PauseActivity"
             android:screenOrientation="landscape" />
@@ -56,6 +55,7 @@
             android:name=".HowTo"
             android:label="@string/title_activity_how_to"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".LeaderboardMenu"></activity>
     </application>
 
 </manifest>

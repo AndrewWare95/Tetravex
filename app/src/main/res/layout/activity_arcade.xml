@@ -42,7 +42,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Chronometer
+            <TextView
                 android:id="@+id/timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,12 +92,55 @@
             android:text="@string/scores_btn_text" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/pause"
-        android:layout_width="30dp"
-        android:layout_height="58dp"
-        android:onClick="pauseButtonClicked"
-        android:src="@drawable/pause"
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/back"
+        android:textSize="15sp"
+        android:background="@drawable/buttonclick"
+        android:id="@+id/backButton"
+        android:onClick="quitGameClicked" />
+
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="25dp"
+        android:text="@string/help_button"
+        android:textSize="15sp"
+        android:background="@drawable/help_button"
+        android:id="@+id/helpInGameButton"
+        android:onClick="helpButton"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="6dp"
+        android:text="@string/puzzles_completed"
+        android:textAlignment="center"
+        android:id="@+id/puzzles_completed_text"
+        android:onClick="newGameButtonClicked"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/puzzles_completed_value"
+        android:textAlignment="center"
+        android:id="@+id/puzzles_completed_value"
+        android:onClick="newGameButtonClicked"
+        android:layout_marginLeft="5dp"
+        android:layout_alignBottom="@+id/helpInGameButton"
+        android:layout_toRightOf="@+id/puzzles_completed_text"
+        android:layout_alignTop="@+id/puzzles_completed_text" />
 
 </RelativeLayout>
