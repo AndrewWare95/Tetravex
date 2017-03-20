@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.example.andware.tetravex.Constants;
 import com.example.andware.tetravex.R;
-import com.example.andware.tetravex.game.Game;
-import com.example.andware.tetravex.game.Tile;
+import com.example.andware.tetravex.gameManager.Game;
+import com.example.andware.tetravex.gameManager.Tile;
 
 public class BoardAdapter extends BaseAdapter {
     private Context mContext;

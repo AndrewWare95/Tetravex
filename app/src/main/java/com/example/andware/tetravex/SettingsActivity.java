@@ -35,8 +35,8 @@ public class SettingsActivity extends PreferenceActivity {
         }
         addPreferencesFromResource(R.xml.list);
         bindPreferenceSummaryToValue(findPreference("pref_size_list"));
-        bindPreferenceSummaryToValue(findPreference("pref_difficulty"));
-        bindPreferenceSummaryToValue(findPreference("pref_shape"));
+        bindPreferenceSummaryToValue(findPreference("pref_difficulty_list"));
+        bindPreferenceSummaryToValue(findPreference("pref_shape_list"));
     }
 
     @Override

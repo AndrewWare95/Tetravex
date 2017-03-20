@@ -37,7 +37,7 @@
         <activity
             android:name=".LeaderboardActivity"
             android:label="@string/title_activity_leaderboard"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -45,15 +45,22 @@
             android:theme="@style/SettingsScreen" />
         <activity
             android:name=".Classic"
+            android:noHistory="true"
             android:screenOrientation="landscape" />
-        <activity android:name=".game.Game" />
+        <activity android:name=".gameManager.Game" />
         <activity
             android:name=".PauseActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".HowTo"
             android:label="@string/title_activity_how_to"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".LeaderboardMenu"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            />
     </application>
 
 </manifest>

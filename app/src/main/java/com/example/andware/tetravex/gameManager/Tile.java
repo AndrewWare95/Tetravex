@@ -1,4 +1,4 @@
-package com.example.andware.tetravex.game;
+package com.example.andware.tetravex.gameManager;
 
 public class Tile
 {

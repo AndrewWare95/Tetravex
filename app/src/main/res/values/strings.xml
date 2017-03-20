@@ -42,6 +42,9 @@
     <string name="reset">Reset</string>
     <string name="help">Help</string>
     <string name="dialog_enter_settings_page">Settings page will reset puzzle</string>
+    <string name="game_over">Game Over!</string>
+    <string name="puzzles_completed">Puzzles Completed = </string>
+    <string name="puzzles_completed_value">0</string>
 
 
     <!-- How To -->
@@ -56,6 +59,11 @@
     <string name="resume_btn_text">Resume puzzle</string>
     <string name="quit_btn_text">Discard puzzle</string>
 
+    <!--Leaderboard -->
+    <string name="username">Username</string>
+    <string name="time">Time</string>
+    <string name="date">Date/Time</string>
+
     <!-- Dashboard -->
     <string name="dashboard_title" translatable="false">Tetravex</string>
     <string name="new_game_btn_text">New puzzle</string>
@@ -68,6 +76,7 @@
     <string name="pref_size_key" translatable="false">pref_size_list</string>
     <string name="pref_color_key" translatable="false">pref_color_tiles</string>
     <string name="pref_difficulty_key" translatable="false">pref_difficulty_list</string>
+    <string name="pref_shape_key" translatable="false">pref_shape_list</string>
 
     <string name="title_color_tiles">Colored tiles</string>
     <string name="description_color_tiles">Each tile number has its own color</string>
