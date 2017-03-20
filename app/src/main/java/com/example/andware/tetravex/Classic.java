@@ -6,6 +6,7 @@ import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.os.Parcelable;
@@ -27,6 +28,8 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,12 +37,18 @@ import com.example.andware.tetravex.game.Game;
 import com.example.andware.tetravex.game.Tile;
 import com.example.andware.tetravex.data.BoardAdapter;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class Classic extends Activity implements View.OnTouchListener, View.OnDragListener
 {
     static final int PAUSE_REQUEST = 1;
     private Game mPuzzle;
     private int gameType = 0;
+    private SimpleDateFormat sdf;
+    private String currentDateAndTime;
 
     private GridView mTargetGridView;
     private GridView mSourceGridView;
@@ -57,7 +66,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     private int counter = 0;
     private Chronometer mTimer;
     private long mPausedTime = 0;
-    DatabaseManager myDb;
+    public DatabaseManager myDb;
 
 
     @Override
@@ -145,13 +154,13 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         String shape = settings.getString(getString(R.string.pref_shape_key), Constants.DEFAULT_SHAPE);
         boolean isInserted;
         if (type.matches("Classic")){
-             isInserted = myDb.intsertData("Testing", minutes+":"+seconds, "TestDate", difficulty, grid, shape);
+             isInserted = myDb.intsertData("Testing", minutes+":"+seconds, currentDateAndTime, difficulty, grid, shape);
         }
         else if (type.matches("Time Trial")){
-            isInserted = myDb.intsertData("Testing", String.valueOf(timeRemaining), "TestDate", difficulty, grid, shape);
+            isInserted = myDb.intsertData("Testing", String.valueOf(timeRemaining), currentDateAndTime, difficulty, grid, shape);
         }
         else {
-            isInserted = myDb.intsertData("Testing", String.valueOf(counter), "TestDate", difficulty, grid, shape);
+            isInserted = myDb.intsertData("Testing", String.valueOf(counter), currentDateAndTime, difficulty, grid, shape);
         }
 
         if (isInserted){
@@ -174,6 +183,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             }
             @Override
             public void onFinish() {
+                sdf = new SimpleDateFormat("dd/MM/yyyy");
+                currentDateAndTime = sdf.format(new Date());
                 addToLeaderboard();
                 textView.setText("Number of puzzles completed : "+counter);
                 cancel();
@@ -242,6 +253,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
 
     private void puzzleSolvedActions() {
         if (gameType == 1){//time trial
+            sdf = new SimpleDateFormat("dd/MM/yyyy");
+            currentDateAndTime = sdf.format(new Date());
             addToLeaderboard();
             cT.cancel();
             mPuzzle.setState(Game.PuzzleState.COMPLETED);
@@ -269,6 +282,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         }
 
         else{
+            sdf = new SimpleDateFormat("dd/MM/yyyy");
+            currentDateAndTime = sdf.format(new Date());
             addToLeaderboard();
             mTimer.stop();
             mPuzzle.setState(Game.PuzzleState.COMPLETED);

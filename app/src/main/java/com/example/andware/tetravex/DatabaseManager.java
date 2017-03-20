@@ -6,19 +6,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by andwa on 13/03/2017.
- */
-
 public class DatabaseManager extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "classicTest.dp";
-    public static final String TABLE_NAME = "classicTest_table";
-    public static final String COL_1 = "USERNAME";
-    public static final String COL_2 = "TIME";
-    public static final String COL_3 = "DATE";
-    public static final String COL_4 = "DIFFICULTY";
-    public static final String COL_5 = "GRID";
-    public static final String COL_6 = "SHAPE";
+    private static final String DATABASE_NAME = "insertDataTesting.dp";
+    private static final String TABLE_NAME = "insertData_table";
+    private static final String COL_0 = "_id";
+    private static final String COL_1 = "USERNAME";
+    private static final String COL_2 = "TIME";
+    private static final String COL_3 = "DATE";
+    private static final String COL_4 = "DIFFICULTY";
+    private static final String COL_5 = "GRID";
+    private static final String COL_6 = "SHAPE";
 
     public DatabaseManager(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -27,7 +24,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table "+TABLE_NAME+" (USERNAME TEXT, TIME TEXT, DATE TEXT, DIFFICULTY TEXT, GRID TEXT, SHAPE TEXT) ");
+        db.execSQL("create table "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT, USERNAME TEXT, TIME TEXT, DATE TEXT, DIFFICULTY TEXT, GRID TEXT, SHAPE TEXT) ");
     }
 
     @Override
