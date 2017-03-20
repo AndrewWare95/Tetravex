@@ -1,8 +1,12 @@
 package com.example.andware.tetravex;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 public class LeaderboardActivity extends AppCompatActivity {
@@ -22,18 +26,24 @@ public class LeaderboardActivity extends AppCompatActivity {
        // populateListView();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_leaderboard, menu);
+        return true;
+    }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-    /*public void populateListView(){
-        Cursor cursor = myDb.getAllData();
-        String[] fromFieldNames = new String[] {DatabaseManager.COL_1, DatabaseManager.COL_2, DatabaseManager.COL_3};
-        int[] toViewIDs = new int[] {R.id.leaderboard_1, R.id.leaderboard_2, R.id.leaderboard_3};
-        SimpleCursorAdapter myCursorAdapter;
-        myCursorAdapter = new SimpleCursorAdapter(getBaseContext(), R.layout.testing_layout, cursor, fromFieldNames, toViewIDs, 0);
-        ListView myList = (ListView) findViewById(R.id.list_view);
-        myList.setAdapter(myCursorAdapter);
-
-
-
-    }*/
+        switch (item.getItemId()) {
+            case R.id.about:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.help:
+                startActivity(new Intent(this, HowTo.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

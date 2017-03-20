@@ -15,6 +15,13 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true" />
 
+    <Space
+        android:id="@+id/top_margin_leaderBoard"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_below="@+id/usernameTableHeading"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/usernameTableHeading"
@@ -50,11 +57,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_margin"
-        android:layout_below="@id/dataTableHeading"
         android:orientation="horizontal"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/top_margin_leaderBoard">
     </ListView>
 </RelativeLayout>

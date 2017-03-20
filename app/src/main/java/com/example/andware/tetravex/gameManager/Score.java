@@ -1,4 +1,4 @@
-package com.example.andware.tetravex.game;
+package com.example.andware.tetravex.gameManager;
 
 import com.example.andware.tetravex.Constants;
 import org.joda.time.DateTime;
