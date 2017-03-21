@@ -40,8 +40,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     static final int PAUSE_REQUEST = 1;
     private Game mPuzzle;
     private int gameType = 0;
-    private SimpleDateFormat sdf;
-    private String currentDateAndTime;
 
     private GridView mTargetGridView;
     private GridView mSourceGridView;
@@ -52,6 +50,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
 
     // used for the puzzle timer
     private CountDownTimer cT;
+    private SimpleDateFormat sdf;
+    private String currentDateAndTime;
     private long timeRemaining;
     private String minutes;
     private String type;
@@ -254,9 +254,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             // set the tiles to not be draggable
             mTargetGridView.setOnTouchListener(null);
             showPuzzleSolvedToast();
-            //TODO
-                /*hideStartingBoard();*/
-            //TODO
             showButtonsOnCompleted();
         }
         else if (gameType == 2 || gameType == 3){//arcade
@@ -283,9 +280,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             // set the tiles to not be draggable
             mTargetGridView.setOnTouchListener(null);
             showPuzzleSolvedToast();
-            //TODO
-                /*hideStartingBoard();*/
-            //TODO
             showButtonsOnCompleted();
         }
     }
@@ -349,7 +343,9 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
-                                cT.cancel();
+                                if (gameType == 1 || gameType == 2 || gameType == 3){
+                                    cT.cancel();
+                                }
                                 finish();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE: // fall-through

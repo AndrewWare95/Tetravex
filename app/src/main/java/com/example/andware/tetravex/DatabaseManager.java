@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseManager extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "insertDataTesting.dp";
@@ -57,6 +58,29 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public Cursor getAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+TABLE_NAME, null);
+        return res;
+    }
+
+    public Cursor getGridData(String grid) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME+ " where GRID = '"+grid+"' ", null);
+        return res;
+    }
+    public Cursor getDifficultyData(String difficulty) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" where DIFFICULTY = '"+difficulty+"' ", null);
+        return res;
+    }
+    public Cursor getShapeData(String shape) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" where SHAPE = '"+shape+"' ", null);
+        return res;
+    }
+
+    public Cursor getFilteredData(String difficulty, String grid, String shape) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" where DIFFICULTY = '"+difficulty+"' AND GRID = '"+grid+"' AND SHAPE = '"+shape+"' ", null);
         return res;
     }
 }
