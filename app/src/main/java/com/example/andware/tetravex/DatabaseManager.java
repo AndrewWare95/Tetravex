@@ -5,11 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class DatabaseManager extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "insertDataTesting.dp";
-    private static final String TABLE_NAME = "insertData_table";
+    private static final String DATABASE_NAME = "tetravex.dp";
+    private static final String TABLE_NAME = "main_table";
     private static final String COL_0 = "_id";
     private static final String COL_1 = "USERNAME";
     private static final String COL_2 = "TIME";
@@ -17,6 +16,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static final String COL_4 = "DIFFICULTY";
     private static final String COL_5 = "GRID";
     private static final String COL_6 = "SHAPE";
+    private static final String COL_7 = "GAMETYPE";
+    private static final String COL_8 = "COMPAREVALUE";
 
     public DatabaseManager(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -25,7 +26,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT, USERNAME TEXT, TIME TEXT, DATE TEXT, DIFFICULTY TEXT, GRID TEXT, SHAPE TEXT) ");
+        db.execSQL("create table "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT, USERNAME TEXT, TIME TEXT, DATE TEXT, DIFFICULTY TEXT, GRID TEXT, SHAPE TEXT, GAMETYPE TEXT, COMPAREVALUE INTEGER) ");
     }
 
     @Override
@@ -34,7 +35,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean intsertData(String username, String time, String date, String difficulty, String grid, String shape){
+    public boolean intsertData(String username, String time, String date, String difficulty, String grid, String shape, String currentGameType, long compareValue){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, username);
@@ -43,6 +44,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
         contentValues.put(COL_4, difficulty);
         contentValues.put(COL_5, grid);
         contentValues.put(COL_6, shape);
+        contentValues.put(COL_7, currentGameType);
+        contentValues.put(COL_8, compareValue);
         db.insert(TABLE_NAME, null, contentValues);
         long result = db.insert(TABLE_NAME, null, contentValues);
 
@@ -77,10 +80,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return res;
     }
 
-    public Cursor getFilteredData(String difficulty, String grid, String shape) {
-
+    public Cursor getFilteredData(String difficulty, String grid, String shape, String currentGameType) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" where DIFFICULTY = '"+difficulty+"' AND GRID = '"+grid+"' AND SHAPE = '"+shape+"' ", null);
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" where DIFFICULTY = '"+difficulty+"' AND GRID = '"+grid+"' AND SHAPE = '"+shape+"' AND GAMETYPE = '"+currentGameType+"'", null);
         return res;
     }
 }

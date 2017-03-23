@@ -18,7 +18,7 @@ public class CursorManager extends CursorAdapter {
     }
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.testing_layout, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.leaderboard_list_layout, parent, false);
     }
 
     @Override

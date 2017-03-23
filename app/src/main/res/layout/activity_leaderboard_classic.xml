@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/gray_background">
+    android:background="@drawable/background_faded">
 
     <Space
         android:id="@+id/left_margin_leaderBoard"
@@ -28,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:textColor="@color/white"
         android:text="@string/username"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/left_margin_leaderBoard"
@@ -39,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:text="@string/time" />
 
@@ -46,6 +48,7 @@
         android:id="@+id/dataTableHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:text="@string/date"
         android:layout_alignParentTop="true"

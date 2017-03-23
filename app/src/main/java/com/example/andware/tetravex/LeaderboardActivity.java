@@ -12,32 +12,35 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.andware.tetravex.gameManager.Game;
 
 public class LeaderboardActivity extends AppCompatActivity {
     DatabaseManager myDb;
     private int leaderBoardType;
+    private String game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard_classic);
 
-
-        //Mve down to matchTable method, then pass through varialbles to new methoed in database manager, return filtered result
-        // for the displayed table
-
         TextView leaderBoardHeading = (TextView) findViewById(R.id.timeTableHeading);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             leaderBoardType = extras.getInt("leader");
         }
-        if (leaderBoardType == 0){leaderBoardHeading.setText("Time");}
-        else if (leaderBoardType == 1){leaderBoardHeading.setText("Remaining");}
-        else {leaderBoardHeading.setText("Completed");}
-
+        if (leaderBoardType == 0){
+            leaderBoardHeading.setText("Time");
+            game = "Classic";
+        }
+        else if (leaderBoardType == 1){
+            leaderBoardHeading.setText("Remaining");
+            game = "Time Trial";
+        }
+        else {
+            leaderBoardHeading.setText("Completed");
+            game = "Arcade";
+        }
         matchTableToSettings();
-
     }
 
 
@@ -51,7 +54,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         myDb = new DatabaseManager(this);
         //Cursor todoCursor = myDb.getAllData();
-        Cursor todoCursor = myDb.getFilteredData(difficulty, grid, shape);
+        Cursor todoCursor = myDb.getFilteredData(difficulty, grid, shape, game);
         ListView lvItems = (ListView) findViewById(R.id.list_view);
         CursorManager todoAdapter = new CursorManager(this, todoCursor);
         lvItems.setAdapter(todoAdapter);
@@ -67,7 +70,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.about:
+            case R.id.settings_header:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             case R.id.help:
