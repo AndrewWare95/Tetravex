@@ -297,7 +297,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 cT.cancel();
             }
         }
-
         else{
             sdf = new SimpleDateFormat("dd/MM/yyyy");
             currentDateAndTime = sdf.format(new Date());
@@ -340,7 +339,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         Intent intent = new Intent(this, Classic.class);
         switch (gameType){
             case 1: //time trial
-                String time = cT.toString();
+                //String time = cT.toString();
                 //cT.cancel();
                 intent.putExtra("key", 1);
                 break;
