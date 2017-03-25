@@ -27,6 +27,7 @@ public class LeaderboardMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),LeaderboardActivity.class);
+                intent.putExtra("leader", 0);
                 startActivityForResult(intent, 0);
             }
         });
@@ -35,6 +36,7 @@ public class LeaderboardMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),LeaderboardActivity.class);
+                intent.putExtra("leader", 1);
                 startActivityForResult(intent, 0);
             }
         });
@@ -43,6 +45,7 @@ public class LeaderboardMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),LeaderboardActivity.class);
+                intent.putExtra("leader", 2);
                 startActivityForResult(intent, 0);
             }
         });

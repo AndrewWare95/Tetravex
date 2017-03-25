@@ -40,21 +40,21 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     static final int PAUSE_REQUEST = 1;
     private Game mPuzzle;
     private int gameType = 0;
-    private SimpleDateFormat sdf;
-    private String currentDateAndTime;
-
     private GridView mTargetGridView;
     private GridView mSourceGridView;
-
     private Tile mDraggedTile = null;
     private int mDraggedTileStartingX = -1;
     private int mDraggedTilePosition = -1;
-
-    // used for the puzzle timer
     private CountDownTimer cT;
+    private SimpleDateFormat sdf;
+    private String currentDateAndTime;
     private long timeRemaining;
+    private long time;
     private String minutes;
+    private String username;
+    private String sec;
     private String type;
+    private String actualTime;
     private int seconds;
     private int counter = 0;
     private Chronometer mTimer;
@@ -72,6 +72,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         TextView puzzleCounter, puzzleCounterValue;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            //TODO value only passed through once
+            username = extras.getString("username");
             gameType = extras.getInt("key");
             if (gameType == 2 || gameType == 3){
                 counter = extras.getInt("counter");
@@ -104,6 +106,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                     type = "Classic";
                     setContentView(R.layout.activity_classic);
                     mTimer = (Chronometer) findViewById(R.id.timer);
+                    time = SystemClock.elapsedRealtime()-mTimer.getBase();
+
                 break;
         }
 
@@ -127,10 +131,12 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         formatSourceBoard();
 
         if (gameType == 1){
-            countDownTimer(100000);
+            countDownTimer(10000);
+            //TODO change above value
         }
         else if (gameType == 2){
-            countDownTimer(300000);
+            countDownTimer(30000);
+            //TODO change above value
         }
         else if (gameType == 3){
             assert extras != null;
@@ -142,26 +148,44 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     public void addToLeaderboard(){
         int size = mPuzzle.getSize();
         String grid = size + " x " + size;
+        long ss, mm;
+        mm = time/60;
+        ss = time%60;
+        if(mm==0){actualTime = "00:";}
+        else{actualTime = ""+mm+":";}
+
+        if(ss < 10){actualTime +="0"+ss;}
+        else{actualTime +=""+ss;}
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String difficulty = settings.getString(getString(R.string.pref_difficulty_key), Constants.DEFAULT_DIFFICULTY);
         String shape = settings.getString(getString(R.string.pref_shape_key), Constants.DEFAULT_SHAPE);
         boolean isInserted;
         if (type.matches("Classic")){
-             isInserted = myDb.intsertData("Testing", minutes+":"+seconds, currentDateAndTime, difficulty, grid, shape);
+             isInserted = myDb.insertData(username, actualTime, currentDateAndTime, difficulty, grid, shape, type, time);
         }
         else if (type.matches("Time Trial")){
-            isInserted = myDb.intsertData("Testing", String.valueOf(timeRemaining), currentDateAndTime, difficulty, grid, shape);
+            String formattedTime = formatTime(String.valueOf(timeRemaining));
+            isInserted = myDb.insertData(username, formattedTime, currentDateAndTime, difficulty, grid, shape, type, timeRemaining);
         }
         else {
-            isInserted = myDb.intsertData("Testing", String.valueOf(counter), currentDateAndTime, difficulty, grid, shape);
+            isInserted = myDb.insertData(username, String.valueOf(counter), currentDateAndTime, difficulty, grid, shape, type, counter);
         }
 
-        if (isInserted){
+        /**if (isInserted){
             Toast.makeText(Classic.this, "Data Inserted", Toast.LENGTH_LONG).show();
         }
         else{
             Toast.makeText(Classic.this, "It didn't work", Toast.LENGTH_LONG).show();
-        }
+        }**/
+    }
+
+    public String formatTime(String time){
+        int t, seconds, milliseconds;
+        t = Integer.parseInt(time);
+        seconds = t/1000;
+        milliseconds = t%1000;
+        time = ""+seconds+"."+milliseconds+"s";
+        return time;
     }
 
     private void countDownTimerGame() {
@@ -172,7 +196,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 timeRemaining = millisUntilFinished;
                 minutes = String.format("%02d", millisUntilFinished/60000);
                 seconds = (int)( (millisUntilFinished%60000)/1000);
-                textView.setText("" +minutes+":"+String.format("%02d",seconds));
+                sec = String.format("%02d",seconds);
+                textView.setText("" +minutes+":"+sec);
             }
             @Override
             public void onFinish() {
@@ -193,7 +218,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 timeRemaining = millisUntilFinished;
                 minutes = String.format("%02d", millisUntilFinished/60000);
                 seconds = (int)( (millisUntilFinished%60000)/1000);
-                textView.setText("" +minutes+":"+String.format("%02d",seconds));
+                sec = String.format("%02d",seconds);
+                textView.setText("" +minutes+":"+sec);
             }
             public void onFinish() {
                 textView.setText(R.string.game_over);
@@ -254,9 +280,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             // set the tiles to not be draggable
             mTargetGridView.setOnTouchListener(null);
             showPuzzleSolvedToast();
-            //TODO
-                /*hideStartingBoard();*/
-            //TODO
             showButtonsOnCompleted();
         }
         else if (gameType == 2 || gameType == 3){//arcade
@@ -265,6 +288,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             mTargetGridView.setOnTouchListener(null);
             Intent intent = new Intent(this, Classic.class);
             intent.putExtra("key", 3);
+            intent.putExtra("username", username);
             intent.putExtra("counter", counter);
             intent.putExtra("timeRemain", timeRemaining);
             startActivity(intent);
@@ -277,15 +301,13 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         else{
             sdf = new SimpleDateFormat("dd/MM/yyyy");
             currentDateAndTime = sdf.format(new Date());
+            Log.d("TESTING", mTimer.toString());
             addToLeaderboard();
             mTimer.stop();
             mPuzzle.setState(Game.PuzzleState.COMPLETED);
             // set the tiles to not be draggable
             mTargetGridView.setOnTouchListener(null);
             showPuzzleSolvedToast();
-            //TODO
-                /*hideStartingBoard();*/
-            //TODO
             showButtonsOnCompleted();
         }
     }
@@ -319,7 +341,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         switch (gameType){
             case 1: //time trial
                 String time = cT.toString();
-                Log.d("HELLO", time);
                 //cT.cancel();
                 intent.putExtra("key", 1);
                 break;
@@ -328,6 +349,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 mTimer.stop();
                 break;
         }
+        intent.putExtra("username", username);
         startActivity(intent);
         finish();
     }
@@ -336,7 +358,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         Intent intent = new Intent(this, HowTo.class);
         intent.putExtra("key", gameType);
         startActivity(intent);
-
     }
 
 
@@ -349,7 +370,10 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
-                                cT.cancel();
+                                if (gameType == 1 || gameType == 2 || gameType == 3){
+                                    cT.cancel();
+                                }
+                                else{mTimer.stop();}
                                 finish();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE: // fall-through
@@ -503,7 +527,10 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                         public void onClick(DialogInterface dialog, int selection) {
                             switch (selection) {
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    cT.cancel();
+                                    if (gameType == 1 || gameType == 2 || gameType == 3){
+                                        cT.cancel();
+                                    }
+                                    else{mTimer.stop();}
                                     finish();
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:

@@ -8,11 +8,18 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainMenu extends AppCompatActivity {
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        username = "Username Error";
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            username = extras.getString("username");
+        }
 
         Typeface face = Typeface.createFromAsset(getAssets(), "ARCADECLASSIC.TTF");
         Button t1=(Button)findViewById(R.id.classicButton);
@@ -34,6 +41,7 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),Classic.class);
+                intent.putExtra("username", username);
                 intent.putExtra("key", 0);
                 startActivityForResult(intent, 0);
             }
@@ -44,6 +52,7 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),Classic.class);
+                intent.putExtra("username", username);
                 intent.putExtra("key", 1);
                 startActivityForResult(intent, 1);
             }
@@ -54,6 +63,7 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),Classic.class);
+                intent.putExtra("username", username);
                 intent.putExtra("key", 2);
                 startActivityForResult(intent, 2);
             }
