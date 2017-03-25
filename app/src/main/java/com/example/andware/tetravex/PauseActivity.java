@@ -52,7 +52,7 @@ public class PauseActivity extends AppCompatActivity {
                 };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getResources().getString(R.string.dialog_quit_game_prompt));
+        builder.setMessage(getResources().getString(R.string.dialog_restart_game));
         builder.setPositiveButton(getResources().getString(R.string.dialog_ok), dialogClickListener);
         builder.setNegativeButton(getResources().getString(R.string.dialog_cancel), dialogClickListener);
         builder.show();

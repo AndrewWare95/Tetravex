@@ -35,7 +35,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean intsertData(String username, String time, String date, String difficulty, String grid, String shape, String currentGameType, long compareValue){
+    public boolean insertData(String username, String time, String date, String difficulty, String grid, String shape, String currentGameType, long compareValue){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, username);
@@ -46,7 +46,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         contentValues.put(COL_6, shape);
         contentValues.put(COL_7, currentGameType);
         contentValues.put(COL_8, compareValue);
-        db.insert(TABLE_NAME, null, contentValues);
+        //db.insert(TABLE_NAME, null, contentValues);
         long result = db.insert(TABLE_NAME, null, contentValues);
 
         if (result == -1){

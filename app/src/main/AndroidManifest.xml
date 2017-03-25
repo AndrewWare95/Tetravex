@@ -45,7 +45,6 @@
             android:theme="@style/SettingsScreen" />
         <activity
             android:name=".Classic"
-            android:noHistory="true"
             android:screenOrientation="landscape" />
         <activity android:name=".gameManager.Game" />
         <activity

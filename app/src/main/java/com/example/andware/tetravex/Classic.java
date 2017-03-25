@@ -72,6 +72,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         TextView puzzleCounter, puzzleCounterValue;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            //TODO value only passed through once
             username = extras.getString("username");
             gameType = extras.getInt("key");
             if (gameType == 2 || gameType == 3){
@@ -160,22 +161,22 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         String shape = settings.getString(getString(R.string.pref_shape_key), Constants.DEFAULT_SHAPE);
         boolean isInserted;
         if (type.matches("Classic")){
-             isInserted = myDb.intsertData(username, actualTime, currentDateAndTime, difficulty, grid, shape, type, time);
+             isInserted = myDb.insertData(username, actualTime, currentDateAndTime, difficulty, grid, shape, type, time);
         }
         else if (type.matches("Time Trial")){
             String formattedTime = formatTime(String.valueOf(timeRemaining));
-            isInserted = myDb.intsertData(username, formattedTime, currentDateAndTime, difficulty, grid, shape, type, timeRemaining);
+            isInserted = myDb.insertData(username, formattedTime, currentDateAndTime, difficulty, grid, shape, type, timeRemaining);
         }
         else {
-            isInserted = myDb.intsertData(username, String.valueOf(counter), currentDateAndTime, difficulty, grid, shape, type, counter);
+            isInserted = myDb.insertData(username, String.valueOf(counter), currentDateAndTime, difficulty, grid, shape, type, counter);
         }
 
-        if (isInserted){
+        /**if (isInserted){
             Toast.makeText(Classic.this, "Data Inserted", Toast.LENGTH_LONG).show();
         }
         else{
             Toast.makeText(Classic.this, "It didn't work", Toast.LENGTH_LONG).show();
-        }
+        }**/
     }
 
     public String formatTime(String time){
@@ -287,6 +288,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             mTargetGridView.setOnTouchListener(null);
             Intent intent = new Intent(this, Classic.class);
             intent.putExtra("key", 3);
+            intent.putExtra("username", username);
             intent.putExtra("counter", counter);
             intent.putExtra("timeRemain", timeRemaining);
             startActivity(intent);
@@ -339,7 +341,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         switch (gameType){
             case 1: //time trial
                 String time = cT.toString();
-                Log.d("HELLO", time);
                 //cT.cancel();
                 intent.putExtra("key", 1);
                 break;
@@ -348,6 +349,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 mTimer.stop();
                 break;
         }
+        intent.putExtra("username", username);
         startActivity(intent);
         finish();
     }
@@ -356,7 +358,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         Intent intent = new Intent(this, HowTo.class);
         intent.putExtra("key", gameType);
         startActivity(intent);
-
     }
 
 
@@ -372,6 +373,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                                 if (gameType == 1 || gameType == 2 || gameType == 3){
                                     cT.cancel();
                                 }
+                                else{mTimer.stop();}
                                 finish();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE: // fall-through
@@ -525,7 +527,10 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                         public void onClick(DialogInterface dialog, int selection) {
                             switch (selection) {
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    cT.cancel();
+                                    if (gameType == 1 || gameType == 2 || gameType == 3){
+                                        cT.cancel();
+                                    }
+                                    else{mTimer.stop();}
                                     finish();
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
