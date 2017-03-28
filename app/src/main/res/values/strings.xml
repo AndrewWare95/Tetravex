@@ -48,6 +48,7 @@
     <string name="game_over">Game Over!</string>
     <string name="puzzles_completed">Puzzles Completed = </string>
     <string name="puzzles_completed_value">0</string>
+    <string name="pause">Pause</string>
 
 
     <!-- How To -->

@@ -93,6 +93,7 @@ public class BoardAdapter extends BaseAdapter {
         else {
             tileView = new ImageView(mContext);
             tileView.setTag(Constants.TAG_EMPTY_TILE);
+            //TODO empty tile important for triangle!!!!!!
             ((ImageView)tileView).setImageResource(R.drawable.empty_tile);
             tileView.setVisibility(View.VISIBLE);
 

@@ -82,14 +82,6 @@
             android:onClick="newGameButtonClicked"
             android:text="@string/new_game_btn_text" />
 
-        <Button
-            android:id="@+id/puzzle_scores_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_best_times"
-            android:drawablePadding="16dp"
-            android:onClick="puzzleScoresButtonClicked"
-            android:text="@string/scores_btn_text" />
     </LinearLayout>
 
     <Button
