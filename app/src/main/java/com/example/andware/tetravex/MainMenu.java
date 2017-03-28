@@ -22,21 +22,20 @@ public class MainMenu extends AppCompatActivity {
         }
 
         Typeface face = Typeface.createFromAsset(getAssets(), "ARCADECLASSIC.TTF");
-        Button t1=(Button)findViewById(R.id.classicButton);
-        Button t2=(Button)findViewById(R.id.timeTrialButton);
-        Button t3=(Button)findViewById(R.id.leaderboardButton);
-        Button t4=(Button)findViewById(R.id.settingsButton);
-        Button t5=(Button)findViewById(R.id.exitMainButton);
-        Button t6=(Button)findViewById(R.id.unknownTitleButton);
-        t1.setTypeface(face);
-        t2.setTypeface(face);
-        t3.setTypeface(face);
-        t4.setTypeface(face);
-        t5.setTypeface(face);
-        t6.setTypeface(face);
+        Button classicButton=(Button)findViewById(R.id.classicButton);
+        Button timeTrialButton=(Button)findViewById(R.id.timeTrialButton);
+        Button unknownButton=(Button)findViewById(R.id.unknownTitleButton);
+        Button leaderButton=(Button)findViewById(R.id.leaderboardButton);
+        Button settingsButton=(Button)findViewById(R.id.settingsButton);
+        Button exitButton=(Button)findViewById(R.id.exitMainButton);
+        classicButton.setTypeface(face);
+        timeTrialButton.setTypeface(face);
+        unknownButton.setTypeface(face);
+        leaderButton.setTypeface(face);
+        settingsButton.setTypeface(face);
+        exitButton.setTypeface(face);
 
 
-        Button classicButton = (Button) findViewById(R.id.classicButton);
         classicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,7 +46,6 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        Button timeTrialButton = (Button) findViewById(R.id.timeTrialButton);
         timeTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,7 +56,6 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        Button unknownButton = (Button) findViewById(R.id.unknownTitleButton);
         unknownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,7 +66,6 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        Button leaderButton = (Button) findViewById(R.id.leaderboardButton);
         leaderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +74,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        Button settingsButton = (Button) findViewById(R.id.settingsButton);
+
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +83,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        Button exitButton = (Button) findViewById(R.id.exitMainButton);
+
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

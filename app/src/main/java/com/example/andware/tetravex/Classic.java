@@ -69,7 +69,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDb = new DatabaseManager(this);
 
-        TextView puzzleCounter, puzzleCounterValue;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             //TODO value only passed through once
@@ -79,7 +78,53 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 counter = extras.getInt("counter");
             }
         }
+        settingGameType();
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String boardSize = settings.getString(getString(R.string.pref_size_key), Constants.DEFAULT_SIZE);
+        String difficulty = settings.getString(getString(R.string.pref_difficulty_key), Constants.DEFAULT_DIFFICULTY);
+        boolean colorTiles = settings.getBoolean(getString(R.string.pref_color_key), true);
 
+        mPuzzle = new Game(Integer.valueOf(boardSize), difficulty);
+        mPuzzle.setColor(colorTiles);
+        mTargetGridView = (GridView) findViewById(R.id.target_board);
+        mSourceGridView = (GridView) findViewById(R.id.source_board);
+
+        formatTargetBoard();
+        formatSourceBoard();
+        settingTimer(boardSize, difficulty);
+    }
+
+
+    public void settingTimer(String boardsize, String difficulty){
+        int timerLevel = 30000;
+        int bSize = Integer.parseInt(boardsize);
+        if (difficulty.matches("Medium")){
+            timerLevel = timerLevel - 10000;
+        }
+        else if (difficulty.matches("Hard")){
+            timerLevel = timerLevel - 20000;
+        }
+
+        Bundle extras = getIntent().getExtras();
+        if (gameType == 1){
+            if(bSize != 2) {
+                timerLevel = timerLevel * bSize;
+            }
+            countDownTimer(timerLevel);
+        }
+        else if (gameType == 2){
+            timerLevel = ((timerLevel*9)/2)*bSize;
+            countDownTimer(timerLevel);
+        }
+        else if (gameType == 3){
+            assert extras != null;
+            timeRemaining = extras.getLong("timeRemain");
+            countDownTimerGame();
+        }
+    }
+
+    public void settingGameType(){
+        TextView puzzleCounter, puzzleCounterValue;
         switch (gameType){
             case 1:
                 setContentView(R.layout.activity_time_trial);
@@ -102,46 +147,13 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 puzzleCounterValue.setText(Integer.toString(counter));
                 break;
             case 4:
-                default:
-                    type = "Classic";
-                    setContentView(R.layout.activity_classic);
-                    mTimer = (Chronometer) findViewById(R.id.timer);
-                    time = SystemClock.elapsedRealtime()-mTimer.getBase();
+            default:
+                type = "Classic";
+                setContentView(R.layout.activity_classic);
+                mTimer = (Chronometer) findViewById(R.id.timer);
+                time = SystemClock.elapsedRealtime()-mTimer.getBase();
 
                 break;
-        }
-
-        // get the size of the board from the saved setting
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-
-        //TODO
-        String boardSize = settings.getString(getString(R.string.pref_size_key),
-                Constants.DEFAULT_SIZE);
-        // access the setting to decide whether or not to color the tiles
-        boolean colorTiles = settings.getBoolean(getString(R.string.pref_color_key), true);
-        //TODO
-
-        mPuzzle = new Game(Integer.valueOf(boardSize));
-        mPuzzle.setColor(colorTiles);
-
-        mTargetGridView = (GridView) findViewById(R.id.target_board);
-        mSourceGridView = (GridView) findViewById(R.id.source_board);
-
-        formatTargetBoard();
-        formatSourceBoard();
-
-        if (gameType == 1){
-            countDownTimer(10000);
-            //TODO change above value
-        }
-        else if (gameType == 2){
-            countDownTimer(30000);
-            //TODO change above value
-        }
-        else if (gameType == 3){
-            assert extras != null;
-            timeRemaining = extras.getLong("timeRemain");
-            countDownTimerGame();
         }
     }
 
@@ -223,7 +235,9 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             }
             public void onFinish() {
                 textView.setText(R.string.game_over);
-                //showPuzzleFailedToast();
+                if(gameType == 1 || gameType == 2){
+                showPuzzleFailedToast();
+                }
                 //// TODO: 22/02/2017
                 showButtonsOnCompleted();
                 cancel();
@@ -297,7 +311,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 cT.cancel();
             }
         }
-
         else{
             sdf = new SimpleDateFormat("dd/MM/yyyy");
             currentDateAndTime = sdf.format(new Date());
@@ -340,7 +353,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         Intent intent = new Intent(this, Classic.class);
         switch (gameType){
             case 1: //time trial
-                String time = cT.toString();
+                //String time = cT.toString();
                 //cT.cancel();
                 intent.putExtra("key", 1);
                 break;

@@ -43,6 +43,14 @@ public class LeaderboardActivity extends AppCompatActivity {
         matchTableToSettings();
     }
 
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        matchTableToSettings();
+        //Refresh your stuff here
+    }
+
 
     public void matchTableToSettings(){
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
