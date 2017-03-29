@@ -66,12 +66,6 @@ public class Game
             }
         }
     }
-    private int singleEdge(int n){
-        if (!difficulty.matches("Easy")) {
-
-        }
-        return 0;
-    }
     private void setColourCounter(int n, int side){
         //Sides : North = 0, South = 1, East = 2, West = 3
         if (!difficulty.matches("Easy")) {
@@ -87,30 +81,95 @@ public class Game
     }
 
     private void checkUniqueEdges(){
-        int countN = 0;
-        int countS = 0;
-        int countE = 0;
-        int countW = 0;
-        for (int i = 0; i < RAND_COLOR_RANGE; i++){
-            if (colourListN[i] >= 1 && colourListS[i] == 0){
-                mBoard[mSize-1-countN][mSize-1-countN].setSouth(i);
-                colourListS[i]++;
-                countN++;
+        Log.d("TESTING", "             ");
+        Log.d("TESTING", "N"+Arrays.toString(colourListN));
+        Log.d("TESTING", "S"+Arrays.toString(colourListS));
+        Log.d("TESTING", "E"+Arrays.toString(colourListE));
+        Log.d("TESTING", "W"+Arrays.toString(colourListW));
+        boolean fixNorth = false;
+        boolean fixEast = false;
+        boolean fixSouth = false;
+        boolean fixWest = false;
+        for (int i = 0; i < RAND_COLOR_RANGE; i++) {
+            if (colourListN[i] >= 1 && colourListS[i] == 0) {
+                fixSouth = true;
             }
-            if (colourListS[i] >= 1 && colourListN[i] == 0){
-                mBoard[countS][countS].setNorth(i);
-                colourListN[i]++;
-                countS++;
+            if (colourListE[i] >= 1 && colourListW[i] == 0) {
+                fixWest = true;
             }
-            if (colourListE[i] >= 1 && colourListW[i] == 0){
-                mBoard[mSize-1-countE][mSize-1-countE].setWest(i);
-                colourListW[i]++;
-                countE++;
+            if (colourListS[i] >= 1 && colourListN[i] == 0) {
+                fixNorth = true;
             }
-            if (colourListW[i] >=1 && colourListE[i] == 0){
-                mBoard[countW][countW].setEast(i);
-                colourListE[i]++;
-                countW++;
+            if (colourListW[i] >= 1 && colourListE[i] == 0) {
+                fixEast = true;
+            }
+        }
+        if (fixNorth || fixSouth){
+            for (int i = 0; i < mSize; i++){
+                int n = mRand.nextInt(RAND_COLOR_RANGE);
+                mBoard[mSize - 1][mSize - 1 - i].setSouth(n);
+                mBoard[0][i].setNorth(n);
+                colourListS[n]++;
+                colourListN[n]++;
+            }
+        }
+        if (fixEast || fixWest){
+            for (int i = 0; i < mSize; i++){
+                int n = mRand.nextInt(RAND_COLOR_RANGE);
+                mBoard[i][0].setWest(n);
+                mBoard[mSize-1-i][mSize-1].setEast(n);
+                colourListE[n]++;
+                colourListW[n]++;
+            }
+        }
+        if (difficulty.matches("Easy")){
+            uniqueEdges(2);
+        }
+        else if (difficulty.matches("Medium")){
+            uniqueEdges(1);
+        }
+    }
+
+    private void uniqueEdges(int num){
+        ArrayList<Integer> uniqueNumN = new ArrayList<>();
+        ArrayList<Integer> uniqueNumE = new ArrayList<>();
+        ArrayList<Integer> uniqueNumS = new ArrayList<>();
+        ArrayList<Integer> uniqueNumW = new ArrayList<>();
+        for(int i = 0; i < RAND_COLOR_RANGE; i++){
+            if (colourListN[i] >= 1 && colourListS[i] == 1) {
+                uniqueNumS.add(i);
+            }
+            if (colourListS[i] >= 1 && colourListN[i] == 1) {
+                uniqueNumN.add(i);
+            }
+            if (colourListE[i] >= 1 && colourListW[i] == 1) {
+                uniqueNumW.add(i);
+            }
+            if (colourListW[i] >= 1 && colourListE[i] == 1) {
+                uniqueNumE.add(i);
+            }
+        }
+        for(int z = 0; z < num; z++){
+            int randomEdge = mRand.nextInt(mSize);
+            if (!uniqueNumN.isEmpty()) {
+                int n = mRand.nextInt(uniqueNumN.size());
+                mBoard[0][randomEdge].setNorth(n);
+                uniqueNumN.clear();
+            }
+            else if (!uniqueNumE.isEmpty()) {
+                int n = mRand.nextInt(uniqueNumE.size());
+                mBoard[mSize - 1 - randomEdge][mSize - 1].setEast(n);
+                uniqueNumE.clear();
+            }
+            else if (!uniqueNumS.isEmpty()) {
+                int n = mRand.nextInt(uniqueNumS.size());
+                mBoard[mSize - 1][mSize - 1 - randomEdge].setSouth(n);
+                uniqueNumS.clear();
+            }
+            else if (!uniqueNumW.isEmpty()) {
+                int n = mRand.nextInt(uniqueNumW.size());
+                mBoard[randomEdge][0].setWest(n);
+                uniqueNumW.clear();
             }
         }
     }
@@ -165,9 +224,37 @@ public class Game
                 }
             }
         }
-        if (isSolved()){
-            counter++;
+
+        /**for (int x = 0; x < mSize; x++) {
+            for (int y = 0; y <= mSize; y++) {
+                // random int in [0,RAND_COLOR_RANGE)
+                int n = mRand.nextInt(RAND_COLOR_RANGE);
+                if (y - 1 >= 0) {
+                    setColourCounter(n,1);
+                    mBoard[x][y-1].setSouth(n);
+                }
+                if (y < mSize) {
+                    setColourCounter(n,0);
+                    mBoard[x][y].setNorth(n);
+                }
+            }
         }
+        for (int x = 0; x <= mSize; x++) {
+            for (int y = 0; y < mSize; y++) {
+                int n = mRand.nextInt(RAND_COLOR_RANGE);
+                if (x - 1 >= 0) {
+                    setColourCounter(n,2);
+                    mBoard[x-1][y].setEast(n);
+                }
+                if (x < mSize) {
+                    setColourCounter(n,3);
+                    mBoard[x][y].setWest(n);
+                }
+            }
+        }**/
+        /**if (isSolved()){
+            counter++;
+        }**/
 
         if (!difficulty.matches("Easy")) {
             checkUniqueEdges();
@@ -180,15 +267,12 @@ public class Game
         for (int x = 0; x < mSize; x++) {
             for (int y = 0; y < mSize; y++) {
                 tiles.add(mBoard[x][y]);
+                //LOOK AT NOTES
                 test[count] = mBoard[x][y];
                 count++;
                 mBoard[x][y] = null;
             }
         }
-        //permuteHelper(test, 0);
-
-        Log.d("TESTCOUNTER", ""+counter);
-
 
         /* ...and place then randomly on the right hand side */
         for (int x = 0; x < mSize; x++) {
@@ -200,6 +284,8 @@ public class Game
                 tiles.remove (tile);
             }
         }
+        //permuteHelper(test, 0);
+        //Log.d("TESTCOUNTER", ""+counter);
     }
 
     private void permuteHelper(Tile[] arr, int index){
@@ -209,7 +295,7 @@ public class Game
             //Print the array
             //System.out.print("[");
             for(int i = 0; i < arr.length - 1; i++){
-                System.out.print(arr[i] + ", ");
+                //System.out.print(arr[i] + ", ");
 
                 int x = i / mSize;
                 int y = i % mSize;
@@ -240,6 +326,7 @@ public class Game
             int x = i / mSize;
             int y = i % mSize;
             mBoard[x][y] = t;
+            //setTile();
 
             if (isSolved()){
                 counter++;
