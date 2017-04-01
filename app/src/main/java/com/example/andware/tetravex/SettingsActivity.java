@@ -37,6 +37,7 @@ public class SettingsActivity extends PreferenceActivity {
         bindPreferenceSummaryToValue(findPreference("pref_size_list"));
         bindPreferenceSummaryToValue(findPreference("pref_difficulty_list"));
         bindPreferenceSummaryToValue(findPreference("pref_shape_list"));
+        bindPreferenceSummaryToValue(findPreference("pref_colour_list"));
     }
 
     @Override

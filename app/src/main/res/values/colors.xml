@@ -43,6 +43,34 @@
     <color name="tile_bkgnd_9">@color/white</color>
     <color name="tile_bkgnd_gray">@color/tile_bkgnd_8</color>
 
+    <color name="tile_blue_0">#1FFE6E</color>
+    <color name="tile_blue_1">#31F89F</color>
+    <color name="tile_blue_2">#0EF1A1</color>
+    <color name="tile_blue_3">#0EF1CB</color>
+    <color name="tile_blue_4">#0EBFF1</color>
+    <color name="tile_blue_5">#0E8CF1</color>
+    <color name="tile_blue_6">#0E62F1</color>
+    <color name="tile_blue_7">#0E38F1</color>
+    <color name="tile_blue_8">#000091</color>
+    <color name="tile_blue_9">@color/white</color>
+
+    <color name="tile_red_0">#D885FF</color>
+    <color name="tile_red_1">#BE39FC</color>
+    <color name="tile_red_2">#ED39FC</color>
+    <color name="tile_red_3">#FC39D0</color>
+    <color name="tile_red_4">#FA3A7A</color>
+    <color name="tile_red_5">#FA3A3A</color>
+    <color name="tile_red_6">#B91313</color>
+    <color name="tile_red_7">#A314B2</color>
+    <color name="tile_red_8">#5F2158</color>
+    <color name="tile_red_9">@color/white</color>
+
+
+
+
+
+
+
     <color name="gray_background">#C8C8C8</color>
     <color name="gray_gradient_start">#A8A8A8</color>
     <color name="gray_gradient_end">#484848</color>

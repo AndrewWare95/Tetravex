@@ -26,6 +26,7 @@ public class Constants {
     public static final String DEFAULT_SIZE = "3";
     public static final String DEFAULT_DIFFICULTY = "Normal";
     public static final String DEFAULT_SHAPE = "Square";
+    public static final String DEFAULT_COLOUR = "Normal";
 
     public static final String TAG_EMPTY_TILE = "EMPTY_TILE";
     public static final String TAG_NUMBERED_TILE = "NUMBERED_TILE";

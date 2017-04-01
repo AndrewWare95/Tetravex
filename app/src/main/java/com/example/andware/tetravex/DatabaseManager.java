@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseManager extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "tetravex.dp";
+    private static final String DATABASE_NAME = "tetravex_android.dp";
     private static final String TABLE_NAME = "main_table";
     private static final String COL_0 = "_id";
     private static final String COL_1 = "USERNAME";
@@ -82,7 +82,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     public Cursor getFilteredData(String difficulty, String grid, String shape, String currentGameType) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" where DIFFICULTY = '"+difficulty+"' AND GRID = '"+grid+"' AND SHAPE = '"+shape+"' AND GAMETYPE = '"+currentGameType+"'", null);
+        Cursor res;
+        if (currentGameType.matches("Classic")){
+            res = db.rawQuery("select * from "+TABLE_NAME+" where DIFFICULTY = '"+difficulty+"' AND GRID = '"+grid+"' AND SHAPE = '"+shape+"' AND GAMETYPE = '"+currentGameType+"' ORDER BY COMPAREVALUE", null);
+        }
+        else{
+            res = db.rawQuery("select * from "+TABLE_NAME+" where DIFFICULTY = '"+difficulty+"' AND GRID = '"+grid+"' AND SHAPE = '"+shape+"' AND GAMETYPE = '"+currentGameType+"' ORDER BY COMPAREVALUE DESC", null);
+        }
         return res;
     }
 }

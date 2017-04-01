@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -82,6 +83,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String boardSize = settings.getString(getString(R.string.pref_size_key), Constants.DEFAULT_SIZE);
         String difficulty = settings.getString(getString(R.string.pref_difficulty_key), Constants.DEFAULT_DIFFICULTY);
+        String colour = settings.getString(getString(R.string.pref_difficulty_key), Constants.DEFAULT_COLOUR);
         boolean colorTiles = settings.getBoolean(getString(R.string.pref_color_key), true);
 
         mPuzzle = new Game(Integer.valueOf(boardSize), difficulty);
@@ -160,14 +162,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     public void addToLeaderboard(){
         int size = mPuzzle.getSize();
         String grid = size + " x " + size;
-        long ss, mm;
-        mm = time/60;
-        ss = time%60;
-        if(mm==0){actualTime = "00:";}
-        else{actualTime = ""+mm+":";}
-
-        if(ss < 10){actualTime +="0"+ss;}
-        else{actualTime +=""+ss;}
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String difficulty = settings.getString(getString(R.string.pref_difficulty_key), Constants.DEFAULT_DIFFICULTY);
         String shape = settings.getString(getString(R.string.pref_shape_key), Constants.DEFAULT_SHAPE);
@@ -216,7 +210,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 sdf = new SimpleDateFormat("dd/MM/yyyy");
                 currentDateAndTime = sdf.format(new Date());
                 addToLeaderboard();
-                textView.setText("Number of puzzles completed : "+counter);
+                textView.setText(" ");
+                showButtonsOnCompleted();
                 cancel();
             }
         };
@@ -236,7 +231,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             public void onFinish() {
                 textView.setText(R.string.game_over);
                 if(gameType == 1 || gameType == 2){
-                showPuzzleFailedToast();
                 }
                 //// TODO: 22/02/2017
                 showButtonsOnCompleted();
@@ -312,9 +306,10 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             }
         }
         else{
+            time = SystemClock.elapsedRealtime()-mTimer.getBase();
+            formatTime();
             sdf = new SimpleDateFormat("dd/MM/yyyy");
             currentDateAndTime = sdf.format(new Date());
-            Log.d("TESTING", mTimer.toString());
             addToLeaderboard();
             mTimer.stop();
             mPuzzle.setState(Game.PuzzleState.COMPLETED);
@@ -322,6 +317,21 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             mTargetGridView.setOnTouchListener(null);
             showPuzzleSolvedToast();
             showButtonsOnCompleted();
+        }
+    }
+
+    private void formatTime(){
+        int hours = (int) (time / 3600000);
+        int minutes = (int) (time - hours * 3600000) / 60000;
+        int seconds = (int) (time - hours * 3600000 - minutes * 60000) / 1000;
+        if (hours != 0){
+            actualTime = ""+hours+":"+minutes+":"+seconds;
+        }
+        else if (minutes != 0){
+            actualTime = ""+minutes+":"+seconds;
+        }
+        else {
+            actualTime = "00:"+seconds;
         }
     }
 
@@ -406,7 +416,9 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
      * Sets the adapter and number of columns for the target board GridView
      */
     private void formatTargetBoard() {
-        mTargetGridView.setAdapter(new BoardAdapter(this, false, mPuzzle));
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String colour = settings.getString(getString(R.string.pref_colour_key), Constants.DEFAULT_COLOUR);
+        mTargetGridView.setAdapter(new BoardAdapter(this, false, mPuzzle, colour));
         mTargetGridView.setNumColumns(mPuzzle.getSize());
         mTargetGridView.setOnTouchListener(this);
     }
@@ -415,7 +427,9 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
      * Set the adapter and number of columns for the source board GridView
      */
     private void formatSourceBoard() {
-        mSourceGridView.setAdapter(new BoardAdapter(this, true, mPuzzle));
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String colour = settings.getString(getString(R.string.pref_colour_key), Constants.DEFAULT_COLOUR);
+        mSourceGridView.setAdapter(new BoardAdapter(this, true, mPuzzle, colour));
         mSourceGridView.setNumColumns(mPuzzle.getSize());
         mSourceGridView.setOnTouchListener(this);
     }
@@ -442,8 +456,14 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                     public void run() {
                         ClipData data = ClipData.newPlainText("DragData", "");
                         View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(target);
-                        target.startDrag(data, shadowBuilder, target, 0);
-                        target.setVisibility(View.INVISIBLE);
+                        try{
+                            target.startDrag(data, shadowBuilder, target, 0);
+                            target.setVisibility(View.INVISIBLE);
+                        }
+                        catch (NullPointerException e){
+                            Log.d("In Game", "Error caused when attempting to move tile");
+                        }
+                        //if it fails, do not turn invisible
                     }
                 });
 
@@ -521,6 +541,9 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                     mPuzzle.setTile(mDraggedTileStartingX, mDraggedTilePosition, mDraggedTile);
                     ((BoardAdapter) mTargetGridView.getAdapter()).notifyDataSetChanged();
                     ((BoardAdapter) mSourceGridView.getAdapter()).notifyDataSetChanged();
+                }
+                else{
+                    v.setVisibility(View.VISIBLE);
                 }
                 break;
             default:

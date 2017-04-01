@@ -1,9 +1,11 @@
 package com.example.andware.tetravex.data;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,14 +25,16 @@ public class BoardAdapter extends BaseAdapter {
     private Context mContext;
     private boolean mSourceBoard;
     private Game mPuzzle;
+    private String mColour;
 
     private final int TARGET_BOARD_START_IDX = 0;
     private final String TAG = "BoardAdapter";
 
-    public BoardAdapter(Context context, boolean srcBoardAdapter, Game puzzle) {
+    public BoardAdapter(Context context, boolean srcBoardAdapter, Game puzzle, String colour) {
         mContext = context;
         mPuzzle = puzzle;
         mSourceBoard = srcBoardAdapter;
+        mColour = colour;
     }
 
     @Override
@@ -224,61 +228,182 @@ public class BoardAdapter extends BaseAdapter {
         // set text, set text color, set background color
         Drawable d = view.getBackground();
 
-        switch (side) {
-            case 0:
-                view.setTextColor(mContext.getResources().getColor(R.color.white));
-                d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_0),
-                        PorterDuff.Mode.MULTIPLY);
-                break;
-            case 1:
-                view.setTextColor(mContext.getResources().getColor(R.color.white));
-                d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_1),
-                        PorterDuff.Mode.MULTIPLY);
-                break;
-            case 2:
-                view.setTextColor(mContext.getResources().getColor(R.color.white));
-                d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_2),
-                        PorterDuff.Mode.MULTIPLY);
-                break;
-            case 3:
-                view.setTextColor(mContext.getResources().getColor(R.color.white));
-                d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_3),
-                        PorterDuff.Mode.MULTIPLY);
-                break;
-            case 4:
-                view.setTextColor(mContext.getResources().getColor(R.color.black));
-                d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_4),
-                        PorterDuff.Mode.MULTIPLY);
-                break;
-            case 5:
-                view.setTextColor(mContext.getResources().getColor(R.color.black));
-                d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_5),
-                        PorterDuff.Mode.MULTIPLY);
-                break;
-            case 6:
-                view.setTextColor(mContext.getResources().getColor(R.color.white));
-                d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_6),
-                        PorterDuff.Mode.MULTIPLY);
-                break;
-            case 7:
-                view.setTextColor(mContext.getResources().getColor(R.color.white));
-                d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_7),
-                        PorterDuff.Mode.MULTIPLY);
-                break;
-            case 8:
-                view.setTextColor(mContext.getResources().getColor(R.color.black));
-                d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_8),
-                        PorterDuff.Mode.MULTIPLY);
-                break;
-            case 9:
-                view.setTextColor(mContext.getResources().getColor(R.color.black));
-                d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_9),
-                        PorterDuff.Mode.MULTIPLY);
-                break;
-            default:
-                // log the error
-                Log.e(TAG, "Unsupported number: " + String.valueOf(side));
-                break;
+
+        if (mColour.matches("Normal")) {
+            switch (side) {
+                case 0:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_0),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 1:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_1),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 2:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_2),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 3:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_3),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 4:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_4),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 5:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_5),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 6:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_6),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 7:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_7),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 8:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_8),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 9:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_9),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                default:
+                    // log the error
+                    Log.e(TAG, "Unsupported number: " + String.valueOf(side));
+                    break;
+            }
+        }
+
+        else if (mColour.matches("Blue")) {
+            switch (side) {
+                case 0:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_blue_0),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 1:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_blue_1),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 2:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_blue_2),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 3:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_blue_3),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 4:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_blue_4),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 5:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_blue_5),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 6:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_blue_6),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 7:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_blue_7),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 8:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_blue_8),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 9:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_blue_9),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                default:
+                    // log the error
+                    Log.e(TAG, "Unsupported number: " + String.valueOf(side));
+                    break;
+            }
+        }
+
+        else if (mColour.matches("Red")){
+            switch (side) {
+                case 0:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_red_0),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 1:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_red_1),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 2:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_red_2),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 3:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_red_3),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 4:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_red_4),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 5:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_red_5),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 6:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_red_6),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 7:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_red_7),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 8:
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_red_8),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 9:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_red_9),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                default:
+                    // log the error
+                    Log.e(TAG, "Unsupported number: " + String.valueOf(side));
+                    break;
+            }
         }
     }
 

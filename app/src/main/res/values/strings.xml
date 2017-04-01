@@ -41,6 +41,7 @@
     <!-- In Game -->
     <string name="puzzle_complete">Puzzle Complete</string>
     <string name="puzzle_failed">Puzzle Failed</string>
+    <string name="number_puzzles_completed">No puzzles Completed</string>
     <string name="back">Back</string>
     <string name="reset">Reset</string>
     <string name="help">Help</string>
@@ -81,9 +82,27 @@
     <string name="pref_color_key" translatable="false">pref_color_tiles</string>
     <string name="pref_difficulty_key" translatable="false">pref_difficulty_list</string>
     <string name="pref_shape_key" translatable="false">pref_shape_list</string>
+    <string name="pref_colour_key" translatable="false">pref_colour_list</string>
 
     <string name="title_color_tiles">Colored tiles</string>
     <string name="description_color_tiles">Each tile number has its own color</string>
+
+    <string name="title_colour">Colour</string>
+    <string name="normal">Normal</string>
+    <string name="blue">Blue</string>
+    <string name="red">Red</string>
+
+    <string-array name="colour_list">
+        <item>@string/normal</item>
+        <item>@string/blue</item>
+        <item>@string/red</item>
+    </string-array>
+
+    <string-array name="colour_list_values">
+        <item>Normal</item>
+        <item>Blue</item>
+        <item>Red</item>
+    </string-array>
 
     <string name="title_size">Size</string>
     <string name="two_x_two" translatable="false">2 x 2</string>

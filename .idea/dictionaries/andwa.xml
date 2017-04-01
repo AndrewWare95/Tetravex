@@ -2,6 +2,7 @@
   <dictionary name="andwa">
     <words>
       <w>boardsize</w>
+      <w>comparevalue</w>
       <w>gametype</w>
       <w>leaderboard</w>
       <w>plasmati</w>
