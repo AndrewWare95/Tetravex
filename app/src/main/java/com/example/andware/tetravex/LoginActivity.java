@@ -31,6 +31,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.andware.tetravex.R;
 
@@ -48,12 +49,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
-    private UserLoginTask mAuthTask = null;
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    public DatabaseManager myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        /**mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -73,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
                 return false;
             }
-        });
+        });**/
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -137,37 +138,52 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin(View view) {
-        if (mAuthTask != null) {
-            return;
-        }
-
         // Reset errors.
         mEmailView.setError(null);
-        mPasswordView.setError(null);
+        //mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        //String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        /**if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
-        }
+        }**/
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_username));
+        }
+        else if (!isAlphaCharactersOnly(email))
+        {
+            mEmailView.setError(getString(R.string.error_alphabetical_characters_only));
             focusView = mEmailView;
             cancel = true;
+        }
+        else if (!isEmailLongEnough(email)) {
+            mEmailView.setError(getString(R.string.error_username_too_short));
+            focusView = mEmailView;
+            cancel = true;
+        }
+        else if (isEmailTooLong(email)){
+            mEmailView.setError(getString(R.string.error_username_too_long));
+            focusView = mEmailView;
+            cancel = true;
+        }
+        else {
+            myDb = new DatabaseManager(this);
+            if (myDb.userDoesNotExist(email)){
+                myDb.insertUsername(email);
+                Toast.makeText(LoginActivity.this, "New User Added", Toast.LENGTH_LONG).show();
+            }
         }
 
         if (cancel) {
@@ -178,33 +194,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
             Intent intent = new Intent(view.getContext(), MainMenu.class);
             intent.putExtra("username", email);
             startActivityForResult(intent, 0);
-            mAuthTask.execute((Void) null);
         }
     }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        char[] chars = email.toCharArray();
+    private boolean isAlphaCharactersOnly(String user){
+        char[] chars = user.toCharArray();
 
         for (char c : chars) {
             if(!Character.isLetter(c)) {
                 return false;
             }
         }
-        if (email.length() < 2) {
-            return false;
-        }
-        return email.length() < 10;
-        //return email.contains("@");
+        return true;
     }
 
-    private boolean isPasswordValid(String password) {
+    private boolean isEmailTooLong(String user){
+        if (user.length() > 9){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isEmailLongEnough(String user) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        if (user.length() < 3) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -301,57 +319,5 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
 }
 

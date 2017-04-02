@@ -30,12 +30,7 @@ public class Constants {
 
     public static final String TAG_EMPTY_TILE = "EMPTY_TILE";
     public static final String TAG_NUMBERED_TILE = "NUMBERED_TILE";
-
-    //public static final int DB_TIME_COL_IDX = 1;
-    //public static final int DB_DATE_COL_IDX = 2;
-
     public static final int DEFAULT_BOARD_SIZE = 3;
-    //public static final int MAX_SCORES_PER_BOARD = 10;
 
     public static final int BUTTONS_FADE_IN_MS = 4500;
 

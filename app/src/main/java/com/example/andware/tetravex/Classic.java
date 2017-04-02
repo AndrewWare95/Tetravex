@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -83,7 +82,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String boardSize = settings.getString(getString(R.string.pref_size_key), Constants.DEFAULT_SIZE);
         String difficulty = settings.getString(getString(R.string.pref_difficulty_key), Constants.DEFAULT_DIFFICULTY);
-        String colour = settings.getString(getString(R.string.pref_difficulty_key), Constants.DEFAULT_COLOUR);
         boolean colorTiles = settings.getBoolean(getString(R.string.pref_color_key), true);
 
         mPuzzle = new Game(Integer.valueOf(boardSize), difficulty);
@@ -347,7 +345,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
         toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setView(getLayoutInflater().inflate(R.layout.toast_failed, null));
+        toast.setView(getLayoutInflater().inflate(R.layout.toast_new_user, null));
         toast.show();
     }
 

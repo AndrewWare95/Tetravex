@@ -89,6 +89,9 @@ public class MainMenu extends AppCompatActivity {
             public void onClick(View view) {
                 //closes app
                 finish();
+
+                //todo uncomment bottom 2 lines, add a back button pressed action for login activity
+                // todo similar to the one in classic.java
                 //brings to login, but pressing back brings you to main menu again
                 //Intent intent = new Intent(view.getContext(),LoginActivity.class);
                 //startActivityForResult(intent, 0);

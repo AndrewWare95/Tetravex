@@ -42,7 +42,6 @@ public class EspressoTesting {
     public void signInPassword(){
         onView(withId(R.id.email)).check(matches(isDisplayed()));
         onView(withId(R.id.email)).perform(typeText("Andrew"), closeSoftKeyboard());
-        onView(withId(R.id.password)).perform(typeText("TestPass"),closeSoftKeyboard());
         onView(withId(R.id.email_sign_in_button)).perform(click());
         onView(withId(R.id.classicButton)).check(matches(isDisplayed()));
     }
