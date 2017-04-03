@@ -6,6 +6,7 @@ import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
@@ -50,13 +51,11 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     private String currentDateAndTime;
     private long timeRemaining;
     private long time;
-    private String minutes;
-    private String username;
-    private String sec;
-    private String type;
+    private String minutes, username, sec, type;
     private String actualTime;
     private int seconds;
     private int counter = 0;
+    private int unfinishedPuzzles;
     private Chronometer mTimer;
     private long mPausedTime = 0;
     public DatabaseManager myDb;
@@ -152,9 +151,19 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 setContentView(R.layout.activity_classic);
                 mTimer = (Chronometer) findViewById(R.id.timer);
                 time = SystemClock.elapsedRealtime()-mTimer.getBase();
-
                 break;
         }
+    }
+
+    public void addUnsolvedPuzzle(){
+        Cursor todoCursor = myDb.getUnfinishedPuzzleData(username);
+        while (todoCursor.moveToNext()){
+            unfinishedPuzzles = todoCursor.getInt(0);
+            unfinishedPuzzles++;
+            Log.d("TESTING", ""+unfinishedPuzzles);
+            myDb.modifyUnfinishedPuzzleInfo(username, unfinishedPuzzles);
+        }
+        ///Modify data here
     }
 
     public void addToLeaderboard(){
@@ -174,13 +183,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         else {
             isInserted = myDb.insertData(username, String.valueOf(counter), currentDateAndTime, difficulty, grid, shape, type, counter);
         }
-
-        /**if (isInserted){
-            Toast.makeText(Classic.this, "Data Inserted", Toast.LENGTH_LONG).show();
-        }
-        else{
-            Toast.makeText(Classic.this, "It didn't work", Toast.LENGTH_LONG).show();
-        }**/
     }
 
     public String formatTime(String time){
@@ -227,6 +229,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 textView.setText("" +minutes+":"+sec);
             }
             public void onFinish() {
+                addUnsolvedPuzzle();
                 textView.setText(R.string.game_over);
                 if(gameType == 1 || gameType == 2){
                 }
@@ -258,6 +261,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             pauseTimer();
         }
         Intent intent = new Intent(this, PauseActivity.class);
+        intent.putExtra("username", username);
         startActivityForResult(intent, 1);
     }
 
@@ -361,8 +365,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         Intent intent = new Intent(this, Classic.class);
         switch (gameType){
             case 1: //time trial
-                //String time = cT.toString();
-                //cT.cancel();
                 intent.putExtra("key", 1);
                 break;
             case 4:
@@ -370,6 +372,22 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 mTimer.stop();
                 break;
         }
+        intent.putExtra("username", username);
+        startActivity(intent);
+        finish();
+    }
+    public void newGameButtonClickedUnfinished(View view){
+        Intent intent = new Intent(this, Classic.class);
+        switch (gameType){
+            case 1: //time trial
+                intent.putExtra("key", 1);
+                break;
+            case 4:
+            default:
+                mTimer.stop();
+                break;
+        }
+        addUnsolvedPuzzle();
         intent.putExtra("username", username);
         startActivity(intent);
         finish();
@@ -394,7 +412,10 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                                 if (gameType == 1 || gameType == 2 || gameType == 3){
                                     cT.cancel();
                                 }
-                                else{mTimer.stop();}
+                                else{
+                                    mTimer.stop();
+                                }
+                                addUnsolvedPuzzle();
                                 finish();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE: // fall-through
@@ -564,7 +585,10 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                                     if (gameType == 1 || gameType == 2 || gameType == 3){
                                         cT.cancel();
                                     }
-                                    else{mTimer.stop();}
+                                    else{
+                                        mTimer.stop();
+                                    }
+                                    addUnsolvedPuzzle();
                                     finish();
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
@@ -577,10 +601,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(getResources().getString(R.string.dialog_quit_game_prompt));
-            builder.setPositiveButton(getResources().getString(R.string.dialog_ok),
-                    dialogClickListener);
-            builder.setNegativeButton(getResources().getString(R.string.dialog_cancel),
-                    dialogClickListener);
+            builder.setPositiveButton(getResources().getString(R.string.dialog_ok), dialogClickListener);
+            builder.setNegativeButton(getResources().getString(R.string.dialog_cancel), dialogClickListener);
             builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {

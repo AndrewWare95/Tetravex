@@ -51,7 +51,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     };
     // UI references.
     private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
     public DatabaseManager myDb;
@@ -63,18 +62,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
-        /**mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    //attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });**/
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -149,13 +136,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        /**if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }**/
-
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
@@ -182,6 +162,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             myDb = new DatabaseManager(this);
             if (myDb.userDoesNotExist(email)){
                 myDb.insertUsername(email);
+                myDb.insertUnfinished(email);
                 Toast.makeText(LoginActivity.this, "New User Added", Toast.LENGTH_LONG).show();
             }
         }

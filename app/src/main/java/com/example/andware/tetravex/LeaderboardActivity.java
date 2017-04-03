@@ -21,34 +21,50 @@ public class LeaderboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_leaderboard_classic);
-
-        TextView leaderBoardHeading = (TextView) findViewById(R.id.timeTableHeading);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             leaderBoardType = extras.getInt("leader");
         }
-        if (leaderBoardType == 0){
-            leaderBoardHeading.setText("Time");
-            game = "Classic";
-        }
-        else if (leaderBoardType == 1){
-            leaderBoardHeading.setText("Remaining");
-            game = "Time Trial";
+        if (leaderBoardType != 3) {
+            setContentView(R.layout.activity_leaderboard_classic);
+            TextView leaderBoardHeading = (TextView) findViewById(R.id.timeTableHeading);
+
+            if (leaderBoardType == 0) {
+                leaderBoardHeading.setText("Time");
+                game = "Classic";
+            } else if (leaderBoardType == 1) {
+                leaderBoardHeading.setText("Remaining");
+                game = "Time Trial";
+            } else {
+                leaderBoardHeading.setText("Completed");
+                game = "Arcade";
+            }
+            matchTableToSettings();
         }
         else {
-            leaderBoardHeading.setText("Completed");
-            game = "Arcade";
+            setContentView(R.layout.activity_leaderboard_unfinished);
+            populateUnfinishedPuzzleTable();
         }
-        matchTableToSettings();
     }
 
     @Override
     public void onResume()
     {  // After a pause OR at startup
         super.onResume();
-        matchTableToSettings();
+        if (leaderBoardType != 3) {
+            matchTableToSettings();
+        }
         //Refresh your stuff here
+    }
+
+    public void populateUnfinishedPuzzleTable(){
+        myDb = new DatabaseManager(this);
+        //Cursor todoCursor = myDb.getAllData();
+        Cursor todoCursor = myDb.getAllUnfinishedData();
+        ListView lvItems = (ListView) findViewById(R.id.list_view_unfinished);
+        CursorManager todoAdapter = new CursorManager(this, todoCursor);
+        todoAdapter.setLeaderboardType(0);
+        lvItems.setAdapter(todoAdapter);
     }
 
 
@@ -65,6 +81,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         Cursor todoCursor = myDb.getFilteredData(difficulty, grid, shape, game);
         ListView lvItems = (ListView) findViewById(R.id.list_view);
         CursorManager todoAdapter = new CursorManager(this, todoCursor);
+        todoAdapter.setLeaderboardType(1);
         lvItems.setAdapter(todoAdapter);
     }
 

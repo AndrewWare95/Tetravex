@@ -31,7 +31,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table "+TABLE_NAME+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT, USERNAME TEXT, TIME TEXT, DATE TEXT, DIFFICULTY TEXT, GRID TEXT, SHAPE TEXT, GAMETYPE TEXT, COMPAREVALUE INTEGER) ");
         db.execSQL("create table "+TABLE_USERS+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT, USERNAME TEXT) ");
-        db.execSQL("create table "+TABLE_UNFINISHED+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT, UNFINISHED INTEGER) ");
+        db.execSQL("create table "+TABLE_UNFINISHED+" ( _id INTEGER PRIMARY KEY AUTOINCREMENT, USERNAME TEXT, UNFINISHED INTEGER) ");
     }
 
     @Override
@@ -77,11 +77,11 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertUnfinished(String username, int unfinished){
+    public boolean insertUnfinished(String username){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, username);
-        contentValues.put(COL_UNFINISHED, unfinished);
+        contentValues.put(COL_UNFINISHED, 0);
         long result = db.insert(TABLE_UNFINISHED, null, contentValues);
 
         if (result == -1){
@@ -111,10 +111,23 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return false;
     }
 
-    public Cursor getUnfinishedPuzzleData(){
+    public Cursor getUnfinishedPuzzleData(String username){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor mCursor = db.rawQuery("", null);
+        Cursor mCursor = db.rawQuery("select UNFINISHED from "+TABLE_UNFINISHED+" where USERNAME = '"+username+"' ", null);
         return mCursor;
+    }
+
+    public Cursor getAllUnfinishedData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor mCursor = db.rawQuery("select * from "+TABLE_UNFINISHED+" ", null);
+        return mCursor;
+    }
+
+    public void modifyUnfinishedPuzzleInfo(String username, int count){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_UNFINISHED, count);
+        db.update(TABLE_UNFINISHED, contentValues, "USERNAME = '"+username+"'", null);
     }
 
     public Cursor getFilteredData(String difficulty, String grid, String shape, String currentGameType) {

@@ -72,6 +72,7 @@
     <string name="username">Username</string>
     <string name="time">Time</string>
     <string name="date">Date/Time</string>
+    <string name="unfinished_leaderboard">Unfinished</string>
 
     <!-- Dashboard -->
     <string name="dashboard_title" translatable="false">Tetravex</string>

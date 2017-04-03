@@ -118,7 +118,6 @@
         android:text="@string/puzzles_completed"
         android:textAlignment="center"
         android:id="@+id/puzzles_completed_text"
-        android:onClick="newGameButtonClicked"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -129,7 +128,6 @@
         android:text="@string/puzzles_completed_value"
         android:textAlignment="center"
         android:id="@+id/puzzles_completed_value"
-        android:onClick="newGameButtonClicked"
         android:layout_marginLeft="5dp"
         android:layout_alignBottom="@+id/helpInGameButton"
         android:layout_toRightOf="@+id/puzzles_completed_text"

@@ -117,7 +117,7 @@
         android:text="@string/reset"
         android:background="@drawable/buttonclick"
         android:id="@+id/resetButton"
-        android:onClick="newGameButtonClicked"
+        android:onClick="newGameButtonClickedUnfinished"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
