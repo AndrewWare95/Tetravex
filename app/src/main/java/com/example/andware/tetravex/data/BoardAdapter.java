@@ -1,11 +1,9 @@
 package com.example.andware.tetravex.data;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,6 +19,8 @@ import com.example.andware.tetravex.R;
 import com.example.andware.tetravex.gameManager.Game;
 import com.example.andware.tetravex.gameManager.Tile;
 
+import static android.view.View.VISIBLE;
+
 public class BoardAdapter extends BaseAdapter {
     private Context mContext;
     private boolean mSourceBoard;
@@ -28,7 +28,6 @@ public class BoardAdapter extends BaseAdapter {
     private String mColour;
 
     private final int TARGET_BOARD_START_IDX = 0;
-    private final String TAG = "BoardAdapter";
 
     public BoardAdapter(Context context, boolean srcBoardAdapter, Game puzzle, String colour) {
         mContext = context;
@@ -45,10 +44,9 @@ public class BoardAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        Tile tile = (mSourceBoard ?
+        return (mSourceBoard ?
                 mPuzzle.getTileByPosition(mPuzzle.getSize(), position) :
                 mPuzzle.getTileByPosition(TARGET_BOARD_START_IDX, position));
-        return tile;
     }
 
     @Override
@@ -70,10 +68,9 @@ public class BoardAdapter extends BaseAdapter {
         }
 
         // there is a tile in this space, draw it
+
         if(tile != null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
-
-            /**this can be changed, taking 2 parameters (size + shape) for later.*/
             int tileLayoutId = getTileLayoutId(mPuzzle.getSize());
             tileView = inflater.inflate(tileLayoutId, parent, false);
             tileView.setTag(Constants.TAG_NUMBERED_TILE);
@@ -85,6 +82,9 @@ public class BoardAdapter extends BaseAdapter {
             tileView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
+                    //if (event.getAction() == MotionEvent.ACTION_UP) {
+                        v.setVisibility(VISIBLE);
+
                     // return false to ignore further MotionEvents
                     // and give the parent a chance to handle MotionEvent
                     return false;
@@ -92,6 +92,7 @@ public class BoardAdapter extends BaseAdapter {
             });
             // don't listen for drag events
             tileView.setOnDragListener(null);
+            //tileView.setOnClickListener(null);
         }
         // no tile, draw the empty slot
         else {
@@ -133,47 +134,6 @@ public class BoardAdapter extends BaseAdapter {
         }
         return width;
     }
-    /**
-    private void setTileViewNumbersHex(View view, Tile tile){
-        TextView northTextView = (TextView)view.findViewById(R.id.hex_bottom_left);
-        northTextView.setText(String.valueOf(tile.getNorth()));
-        stylizeQuadrant(northTextView, tile.getNorth(), mPuzzle.isColor());
-
-        TextView eastTextView = (TextView)view.findViewById(R.id.hex_bottom_right);
-        eastTextView.setText(String.valueOf(tile.getEast()));
-        stylizeQuadrant(eastTextView, tile.getEast(), mPuzzle.isColor());
-
-        TextView westTextView = (TextView)view.findViewById(R.id.hex_left);
-        westTextView.setText(String.valueOf(tile.getWest()));
-        stylizeQuadrant(westTextView, tile.getWest(), mPuzzle.isColor());
-
-        TextView southTextView = (TextView)view.findViewById(R.id.hex_right);
-        southTextView.setText(String.valueOf(tile.getSouth()));
-        stylizeQuadrant(southTextView, tile.getSouth(), mPuzzle.isColor());
-
-        TextView topTextView = (TextView)view.findViewById(R.id.hex_top_left);
-        topTextView.setText(String.valueOf(tile.getNorth()));
-        stylizeQuadrant(topTextView, tile.getNorth(), mPuzzle.isColor());
-
-        TextView wTextView = (TextView)view.findViewById(R.id.hex_top_right);
-        wTextView.setText(String.valueOf(tile.getWest()));
-        stylizeQuadrant(wTextView, tile.getWest(), mPuzzle.isColor());
-    }**/
-    /**
-    private void setTileViewNumbersTriangle(View view, Tile tile){
-        TextView northTextView = (TextView)view.findViewById(R.id.tile_bottom_inverse);
-        northTextView.setText(String.valueOf(tile.getNorth()));
-        stylizeQuadrant(northTextView, tile.getNorth(), mPuzzle.isColor());
-
-        TextView eastTextView = (TextView)view.findViewById(R.id.tile_left_inverse);
-        eastTextView.setText(String.valueOf(tile.getEast()));
-        stylizeQuadrant(eastTextView, tile.getEast(), mPuzzle.isColor());
-
-        TextView westTextView = (TextView)view.findViewById(R.id.tile_right_inverse);
-        westTextView.setText(String.valueOf(tile.getWest()));
-        stylizeQuadrant(westTextView, tile.getWest(), mPuzzle.isColor());
-    }**/
-
 
     private void setTileViewNumbers(View view, Tile tile) {
         TextView northTextView = (TextView)view.findViewById(R.id.tile_north);
@@ -193,12 +153,6 @@ public class BoardAdapter extends BaseAdapter {
         stylizeQuadrant(westTextView, tile.getWest(), mPuzzle.isColor());
     }
 
-    /**
-     * Color one side of the tile, or set it to gray based on application setting
-     * @param view the view to apply the style
-     * @param side the number that identifies the color of the tile's side
-     * @param colorTiles {@code true} for color tiles; {@code false} for gray tiles
-     */
     private void stylizeQuadrant(TextView view, int side, boolean colorTiles) {
         if(colorTiles) {
             colorizeQuadrant(view, side);
@@ -208,10 +162,6 @@ public class BoardAdapter extends BaseAdapter {
         }
     }
 
-    /**
-     * Color one side of the tile gray
-     * @param view the view that should receive a gray background
-     */
     private void setGrayQuadrant(TextView view) {
         view.setTextColor(mContext.getResources().getColor(R.color.black));
         Drawable d = view.getBackground();
@@ -219,16 +169,12 @@ public class BoardAdapter extends BaseAdapter {
                 PorterDuff.Mode.MULTIPLY);
     }
 
-    /**
-     * Color one side of the tile
-     * @param view the view that should receive a colored background
-     * @param side the number that identifies the color of the tile's side
-     */
     private void colorizeQuadrant(TextView view, int side) {
         // set text, set text color, set background color
         Drawable d = view.getBackground();
 
 
+        String TAG = "BoardAdapter";
         if (mColour.matches("Normal")) {
             switch (side) {
                 case 0:
@@ -407,29 +353,6 @@ public class BoardAdapter extends BaseAdapter {
         }
     }
 
-    /**
-     * Get the layout ID for the appropriate tile layout based on board size
-     * @param boardSize the size of the Tetravex board
-     * @return the layout ID of the appropriate tile layout
-     */
-
-
-    /**
-    private  int getTileLayoutIdTriangle(int boardSize){
-        int layoutId;
-
-        switch (boardSize){
-            case 2:
-                layoutId = R.layout.triangle_inverted;
-                break;
-
-            default:
-                layoutId = R.layout.triangle_inverted;
-        }
-        return layoutId;
-    }**/
-
-
     private int getTileLayoutId(int boardSize) {
         int layoutId;
         switch (boardSize) {
@@ -443,7 +366,6 @@ public class BoardAdapter extends BaseAdapter {
                 layoutId = R.layout.tile_5_layout;
                 break;
             case 3:
-                // fall-through, 3 is the default
             default:
                 layoutId = R.layout.tile_3_layout;
                 break;

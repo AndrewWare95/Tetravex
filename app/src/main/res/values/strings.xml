@@ -38,8 +38,10 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_reset_scores_prompt">Reset high scores?</string>
     <string name="dialog_quit_game_prompt">Quit current game?</string>
+    <string name="dialog_quit_game">Exit Game?</string>
     <string name="dialog_restart_game">Reset Puzzle</string>
     <string name="scores_deleted">Scores deleted</string>
+    <string name="dialog_exit_to_login">Exit to login screen?</string>
 
 
     <!-- In Game -->
@@ -57,9 +59,9 @@
 
 
     <!-- How To -->
-    <string name="how_to_time_trial">Complete the puzzle before the timer runs out</string>
-    <string name="how_to_classic">Complete the puzzle</string>
-    <string name="how_to_arcade">Complete as many puzzles as possible before the timer runs out</string>
+    <string name="how_to_time_trial">Time Trial - Complete the puzzle before the timer runs out. Move the tiles from right to left, matching each edge of the tile with the edges of the other tiles.</string>
+    <string name="how_to_classic">Classic - Complete the puzzle as quickly as you can. Move the tiles from right to left, matching each edge of the tile with the edges of the other tiles.</string>
+    <string name="how_to_arcade">Arcade - Complete as many puzzles as possible before the timer runs out. Move the tiles from right to left, matching each edge of the tile with the edges of the other tiles.</string>
     <string name="help_button">Help ?</string>
 
 
@@ -73,6 +75,8 @@
     <string name="time">Time</string>
     <string name="date">Date/Time</string>
     <string name="unfinished_leaderboard">Unfinished</string>
+    <string name="remove_all_scores">Remove All Scores</string>
+    <string name="leader_board_how_to">Leaderboard displays top scores in order. Information displayed depends on current settings. To change just select different values for difficulty or grid size.</string>
 
     <!-- Dashboard -->
     <string name="dashboard_title" translatable="false">Tetravex</string>
@@ -162,7 +166,7 @@
         <item>Hard</item>
     </string-array>
     <string name="title_activity_classic">Classic</string>
-    <string name="title_activity_how_to">HowTo</string>
+    <string name="title_activity_how_to">Help</string>
 
 
 </resources>

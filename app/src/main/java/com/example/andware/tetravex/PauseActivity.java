@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,7 +16,6 @@ public class PauseActivity extends AppCompatActivity {
 
     public static final int RESULT_QUIT_GAME   = 3;
     public DatabaseManager myDb;
-    private int unfinishedPuzzles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +30,13 @@ public class PauseActivity extends AppCompatActivity {
     }
 
 
+    //Resume finishes pause activity and resumes current game.
     public void resumeButtonClicked(View view) {
         finish();
     }
 
 
+    //New game button clicked, create new game and add to unfinished counter.
     public void newGameButtonClickedUnfinished(View view) {
         // confirm with dialog
         DialogInterface.OnClickListener dialogClickListener =
@@ -65,7 +65,7 @@ public class PauseActivity extends AppCompatActivity {
     }
 
 
-
+    //Quit game and exit to main menu, add to unfinished puzzle counter
     public void quitGameButtonClicked(View view) {
         // confirm with dialog
         DialogInterface.OnClickListener dialogClickListener =
@@ -96,6 +96,7 @@ public class PauseActivity extends AppCompatActivity {
         builder.show();
     }
 
+    //Method used to increment unfinished puzzle counter and modify database.
     public void addUnsolvedPuzzle(){
         Bundle extras = getIntent().getExtras();
         String username;
@@ -103,9 +104,8 @@ public class PauseActivity extends AppCompatActivity {
             username = extras.getString("username");
             Cursor todoCursor = myDb.getUnfinishedPuzzleData(username);
             while (todoCursor.moveToNext()) {
-                unfinishedPuzzles = todoCursor.getInt(0);
+                int unfinishedPuzzles = todoCursor.getInt(0);
                 unfinishedPuzzles++;
-                Log.d("TESTING", "" + unfinishedPuzzles);
                 myDb.modifyUnfinishedPuzzleInfo(username, unfinishedPuzzles);
             }
         }

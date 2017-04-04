@@ -35,8 +35,10 @@ import com.example.andware.tetravex.data.BoardAdapter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.view.View.VISIBLE;
 
-public class Classic extends Activity implements View.OnTouchListener, View.OnDragListener
+
+public class Classic extends Activity implements View.OnTouchListener, View.OnDragListener, View.OnClickListener
 {
     static final int PAUSE_REQUEST = 1;
     private Game mPuzzle;
@@ -49,17 +51,14 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     private CountDownTimer cT;
     private SimpleDateFormat sdf;
     private String currentDateAndTime;
-    private long timeRemaining;
-    private long time;
+    private long timeRemaining, time;
     private String minutes, username, sec, type;
     private String actualTime;
     private int seconds;
     private int counter = 0;
-    private int unfinishedPuzzles;
     private Chronometer mTimer;
     private long mPausedTime = 0;
     public DatabaseManager myDb;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +69,6 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            //TODO value only passed through once
             username = extras.getString("username");
             gameType = extras.getInt("key");
             if (gameType == 2 || gameType == 3){
@@ -95,8 +93,12 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
 
 
     public void settingTimer(String boardsize, String difficulty){
+        //This method sets the timer depending on the difficulty, grid size and game type.
+        //Start with initial value of 30s.
         int timerLevel = 30000;
         int bSize = Integer.parseInt(boardsize);
+
+        //Remove time for higher difficulty puzzles.
         if (difficulty.matches("Medium")){
             timerLevel = timerLevel - 10000;
         }
@@ -104,6 +106,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             timerLevel = timerLevel - 20000;
         }
 
+        //Increase time for larger grid sizes.
         Bundle extras = getIntent().getExtras();
         if (gameType == 1){
             if(bSize != 2) {
@@ -111,6 +114,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             }
             countDownTimer(timerLevel);
         }
+
+        //Finally if arcade mode, increase time again.
         else if (gameType == 2){
             timerLevel = ((timerLevel*9)/2)*bSize;
             countDownTimer(timerLevel);
@@ -123,6 +128,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     }
 
     public void settingGameType(){
+        //Set up the game with layout and timers depending on game type.
         TextView puzzleCounter, puzzleCounterValue;
         switch (gameType){
             case 1:
@@ -156,36 +162,40 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     }
 
     public void addUnsolvedPuzzle(){
+        //Gets the current number of unfinished puzzles for current user.
         Cursor todoCursor = myDb.getUnfinishedPuzzleData(username);
         while (todoCursor.moveToNext()){
-            unfinishedPuzzles = todoCursor.getInt(0);
+            int unfinishedPuzzles = todoCursor.getInt(0);
+            //Then adds 1 to that value.
             unfinishedPuzzles++;
-            Log.d("TESTING", ""+unfinishedPuzzles);
+            //Then update database with new value.
             myDb.modifyUnfinishedPuzzleInfo(username, unfinishedPuzzles);
         }
-        ///Modify data here
     }
 
     public void addToLeaderboard(){
+        //Using the current settings and username, add to leaderboard.
         int size = mPuzzle.getSize();
         String grid = size + " x " + size;
+        //SharedPreferences allows us to access the current value of each setting.
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String difficulty = settings.getString(getString(R.string.pref_difficulty_key), Constants.DEFAULT_DIFFICULTY);
         String shape = settings.getString(getString(R.string.pref_shape_key), Constants.DEFAULT_SHAPE);
-        boolean isInserted;
+        //Finally organise data using the current game type.
         if (type.matches("Classic")){
-             isInserted = myDb.insertData(username, actualTime, currentDateAndTime, difficulty, grid, shape, type, time);
+             myDb.insertData(username, actualTime, currentDateAndTime, difficulty, grid, shape, type, time);
         }
         else if (type.matches("Time Trial")){
             String formattedTime = formatTime(String.valueOf(timeRemaining));
-            isInserted = myDb.insertData(username, formattedTime, currentDateAndTime, difficulty, grid, shape, type, timeRemaining);
+            myDb.insertData(username, formattedTime, currentDateAndTime, difficulty, grid, shape, type, timeRemaining);
         }
         else {
-            isInserted = myDb.insertData(username, String.valueOf(counter), currentDateAndTime, difficulty, grid, shape, type, counter);
+            myDb.insertData(username, String.valueOf(counter), currentDateAndTime, difficulty, grid, shape, type, counter);
         }
     }
 
     public String formatTime(String time){
+        //Format time for time trial database.
         int t, seconds, milliseconds;
         t = Integer.parseInt(time);
         seconds = t/1000;
@@ -195,10 +205,12 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     }
 
     private void countDownTimerGame() {
+        //This is only called for arcade mode, use remaining time.
         cT = new CountDownTimer(timeRemaining, 1000) {
             TextView textView = (TextView) findViewById(R.id.timer);
             @Override
             public void onTick(long millisUntilFinished) {
+                //Every second set onscreen timer with updated time.
                 timeRemaining = millisUntilFinished;
                 minutes = String.format("%02d", millisUntilFinished/60000);
                 seconds = (int)( (millisUntilFinished%60000)/1000);
@@ -207,6 +219,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             }
             @Override
             public void onFinish() {
+                //When timer is finished update leaderboard.
                 sdf = new SimpleDateFormat("dd/MM/yyyy");
                 currentDateAndTime = sdf.format(new Date());
                 addToLeaderboard();
@@ -222,6 +235,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         cT =  new CountDownTimer(time, 1000) {
             TextView textView = (TextView) findViewById(R.id.timer);
             public void onTick(long millisUntilFinished) {
+                //Every second set onscreen timer with updated time.
                 timeRemaining = millisUntilFinished;
                 minutes = String.format("%02d", millisUntilFinished/60000);
                 seconds = (int)( (millisUntilFinished%60000)/1000);
@@ -229,11 +243,9 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                 textView.setText("" +minutes+":"+sec);
             }
             public void onFinish() {
+                //If timer finished, add to unsolved puzzles, set text to game over and show new game button.
                 addUnsolvedPuzzle();
                 textView.setText(R.string.game_over);
-                if(gameType == 1 || gameType == 2){
-                }
-                //// TODO: 22/02/2017
                 showButtonsOnCompleted();
                 cancel();
             }
@@ -281,22 +293,25 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     }
 
     private void puzzleSolvedActions() {
-        if (gameType == 1){//time trial
+        if (gameType == 1){
+            // Time trial
             sdf = new SimpleDateFormat("dd/MM/yyyy");
             currentDateAndTime = sdf.format(new Date());
             addToLeaderboard();
             cT.cancel();
             mPuzzle.setState(Game.PuzzleState.COMPLETED);
-            // set the tiles to not be draggable
+            // Set the tiles to not be draggable after completion.
             mTargetGridView.setOnTouchListener(null);
             showPuzzleSolvedToast();
             showButtonsOnCompleted();
         }
-        else if (gameType == 2 || gameType == 3){//arcade
-            counter++;
+        else if (gameType == 2 || gameType == 3){
+            // Arcade
+            counter++;      //Counter for number of puzzles completed.
             mPuzzle.setState(Game.PuzzleState.COMPLETED);
             mTargetGridView.setOnTouchListener(null);
             Intent intent = new Intent(this, Classic.class);
+            //Pass through gametype, username, counter, the the remaining time.
             intent.putExtra("key", 3);
             intent.putExtra("username", username);
             intent.putExtra("counter", counter);
@@ -308,6 +323,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             }
         }
         else{
+            // Classic
+            //Formatting time for inserting into database.
             time = SystemClock.elapsedRealtime()-mTimer.getBase();
             formatTime();
             sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -323,6 +340,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     }
 
     private void formatTime(){
+        //Formatting time for arcade leaderboard data
         int hours = (int) (time / 3600000);
         int minutes = (int) (time - hours * 3600000) / 60000;
         int seconds = (int) (time - hours * 3600000 - minutes * 60000) / 1000;
@@ -333,10 +351,14 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             actualTime = ""+minutes+":"+seconds;
         }
         else {
-            actualTime = "00:"+seconds;
+            if (seconds < 10)
+                actualTime = "00:0"+seconds;
+            else
+                actualTime = "00:"+seconds;
         }
     }
 
+    //Display toast upon after completion of a puzzle.
     private void showPuzzleSolvedToast() {
         Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
@@ -345,22 +367,16 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         toast.show();
     }
 
-    private void showPuzzleFailedToast(){
-        Toast toast = new Toast(getApplicationContext());
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setView(getLayoutInflater().inflate(R.layout.toast_new_user, null));
-        toast.show();
-    }
-
+    //Display new game button after puzzle is completed.
     private void showButtonsOnCompleted() {
         LinearLayout buttons = (LinearLayout) findViewById(R.id.puzzle_buttons);
         Animation fadeIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
         fadeIn.setDuration(Constants.BUTTONS_FADE_IN_MS);
         buttons.startAnimation(fadeIn);
-        buttons.setVisibility(View.VISIBLE);
+        buttons.setVisibility(VISIBLE);
     }
 
+    //If new game button is clicked, reset or in pause menu then this method is called.
     public void newGameButtonClicked(View view) {
         Intent intent = new Intent(this, Classic.class);
         switch (gameType){
@@ -376,6 +392,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
         startActivity(intent);
         finish();
     }
+
+    //If new game is clicked and puzzle is not completed then add to unsolved puzzle count.
     public void newGameButtonClickedUnfinished(View view){
         Intent intent = new Intent(this, Classic.class);
         switch (gameType){
@@ -400,8 +418,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
     }
 
 
+    //If quit game is clicked this method is called, stop the different timers for each game type.
     public void quitGameClicked(View view) {
-        // confirm with dialog
         DialogInterface.OnClickListener dialogClickListener =
                 new DialogInterface.OnClickListener() {
 
@@ -455,15 +473,14 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        GridView parent = (GridView) v;
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        int position = parent.pointToPosition(x, y);
+        int relativePosition = position - parent.getFirstVisiblePosition();
+        final View target = parent.getChildAt(relativePosition);
+
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            GridView parent = (GridView) v;
-
-            int x = (int) event.getX();
-            int y = (int) event.getY();
-            int position = parent.pointToPosition(x, y);
-            int relativePosition = position - parent.getFirstVisiblePosition();
-            final View target = parent.getChildAt(relativePosition);
-
             // drag only numbered tiles
             if (target != null &&
                     target.getTag().equals(Constants.TAG_NUMBERED_TILE)) {
@@ -509,7 +526,8 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             }
             // report that the event was consumed
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -531,6 +549,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             //the user has moved the drag shadow outside the bounding box of the View
             case DragEvent.ACTION_DRAG_EXITED:
                 ((ImageView) v).clearColorFilter();
+                v.setVisibility(VISIBLE);
                 break;
 
             //drag shadow has been released,the drag point is within the bounding box of the View
@@ -562,13 +581,18 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                     ((BoardAdapter) mSourceGridView.getAdapter()).notifyDataSetChanged();
                 }
                 else{
-                    v.setVisibility(View.VISIBLE);
+                    v.setVisibility(VISIBLE);
                 }
                 break;
             default:
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.d("TESTING", "CLICKING NOW");
     }
 
 
@@ -582,6 +606,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                         public void onClick(DialogInterface dialog, int selection) {
                             switch (selection) {
                                 case DialogInterface.BUTTON_POSITIVE:
+                                    //Cancel timers depending on current game type.
                                     if (gameType == 1 || gameType == 2 || gameType == 3){
                                         cT.cancel();
                                     }
@@ -593,6 +618,7 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
                                 default:
+                                    //If cancel then resume timer.
                                     resumeTimer();
                                     break;
                             }
@@ -631,5 +657,4 @@ public class Classic extends Activity implements View.OnTouchListener, View.OnDr
             }
         }
     }
-
 }

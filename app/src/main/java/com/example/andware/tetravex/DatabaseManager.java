@@ -6,12 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DatabaseManager extends SQLiteOpenHelper {
+class DatabaseManager extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "tetravex_android_database.dp";
     private static final String TABLE_NAME = "main_table";
     private static final String TABLE_USERS = "users_table";
     private static final String TABLE_UNFINISHED = "unfinished_table";
-    private static final String COL_0 = "_id";
     private static final String COL_1 = "USERNAME";
     private static final String COL_2 = "TIME";
     private static final String COL_3 = "DATE";
@@ -23,7 +22,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static final String COL_UNFINISHED = "UNFINISHED";
 
 
-    public DatabaseManager(Context context) {
+    DatabaseManager(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
@@ -42,7 +41,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(String username, String time, String date, String difficulty, String grid, String shape, String currentGameType, long compareValue){
+    boolean insertData(String username, String time, String date, String difficulty, String grid, String shape, String currentGameType, long compareValue){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, username);
@@ -53,52 +52,40 @@ public class DatabaseManager extends SQLiteOpenHelper {
         contentValues.put(COL_6, shape);
         contentValues.put(COL_7, currentGameType);
         contentValues.put(COL_8, compareValue);
-        //db.insert(TABLE_NAME, null, contentValues);
         long result = db.insert(TABLE_NAME, null, contentValues);
 
-        if (result == -1){
-            return false;
-        }
-        else {
-            return true;
-        }
+        return result != -1;
     }
-    public boolean insertUsername(String username){
+
+    //Insert data into username table if new user is created.
+    boolean insertUsername(String username){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, username);
         long result = db.insert(TABLE_USERS, null, contentValues);
 
-        if (result == -1){
-            return false;
-        }
-        else {
-            return true;
-        }
+        return result != -1;
     }
 
-    public boolean insertUnfinished(String username){
+    //Insert new data into table if new user is added.
+    boolean insertUnfinished(String username){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, username);
         contentValues.put(COL_UNFINISHED, 0);
         long result = db.insert(TABLE_UNFINISHED, null, contentValues);
 
-        if (result == -1){
-            return false;
-        }
-        else {
-            return true;
-        }
+        return result != -1;
     }
 
-    public Cursor getAllData(){
+    /*public Cursor getAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor mCursor = db.rawQuery("select * from "+TABLE_NAME, null);
         return mCursor;
-    }
+    }*/
 
-    public boolean userDoesNotExist(String username){
+    //Method returns true if the username entered already exists in the database.
+    boolean userDoesNotExist(String username){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "select * from "+TABLE_USERS+" where USERNAME = '"+username+"' ";
         Cursor mCursor = db.rawQuery(query, null);
@@ -111,26 +98,34 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return false;
     }
 
-    public Cursor getUnfinishedPuzzleData(String username){
+    //Returns number of unfinished puzzles of a specific user.
+    Cursor getUnfinishedPuzzleData(String username){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor mCursor = db.rawQuery("select UNFINISHED from "+TABLE_UNFINISHED+" where USERNAME = '"+username+"' ", null);
-        return mCursor;
+        return db.rawQuery("select UNFINISHED from "+TABLE_UNFINISHED+" where USERNAME = '"+username+"' ", null);
     }
 
-    public Cursor getAllUnfinishedData(){
+    //Returns all data from unfinished puzzles table.
+    Cursor getAllUnfinishedData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor mCursor = db.rawQuery("select * from "+TABLE_UNFINISHED+" ", null);
-        return mCursor;
+        return db.rawQuery("select * from "+TABLE_UNFINISHED+" ", null);
     }
 
-    public void modifyUnfinishedPuzzleInfo(String username, int count){
+    //Modifies the unfinished puzzles table if a user does not finish a puzzle.
+    void modifyUnfinishedPuzzleInfo(String username, int count){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_UNFINISHED, count);
         db.update(TABLE_UNFINISHED, contentValues, "USERNAME = '"+username+"'", null);
     }
 
-    public Cursor getFilteredData(String difficulty, String grid, String shape, String currentGameType) {
+    void removeAllScores(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+TABLE_NAME);
+    }
+
+
+    //Returns filtered data depending on the settings passed through.
+    Cursor getFilteredData(String difficulty, String grid, String shape, String currentGameType) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res;
         if (currentGameType.matches("Classic")){

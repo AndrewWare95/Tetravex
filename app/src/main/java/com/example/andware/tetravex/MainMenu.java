@@ -1,5 +1,7 @@
 package com.example.andware.tetravex;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,7 @@ public class MainMenu extends AppCompatActivity {
             username = extras.getString("username");
         }
 
+        //Setting text of each button
         Typeface face = Typeface.createFromAsset(getAssets(), "ARCADECLASSIC.TTF");
         Button classicButton=(Button)findViewById(R.id.classicButton);
         Button timeTrialButton=(Button)findViewById(R.id.timeTrialButton);
@@ -87,15 +90,39 @@ public class MainMenu extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //closes app
-                finish();
-
-                //todo uncomment bottom 2 lines, add a back button pressed action for login activity
-                // todo similar to the one in classic.java
-                //brings to login, but pressing back brings you to main menu again
-                //Intent intent = new Intent(view.getContext(),LoginActivity.class);
-                //startActivityForResult(intent, 0);
+                Intent intent = new Intent(view.getContext(),LoginActivity.class);
+                startActivityForResult(intent, 0);
             }
         });
+    }
+
+    //Pressing back button causes dialog box asking if you wish to enter login screen
+    @Override
+    public void onBackPressed() {
+        DialogInterface.OnClickListener dialogClickListener =
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int selection) {
+                        switch (selection) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                Intent intent = new Intent(MainMenu.this ,LoginActivity.class);
+                                startActivityForResult(intent, 0);
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                            default:
+                                break;
+                        }
+                    }
+                };
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getResources().getString(R.string.dialog_exit_to_login));
+        builder.setPositiveButton(getResources().getString(R.string.dialog_ok), dialogClickListener);
+        builder.setNegativeButton(getResources().getString(R.string.dialog_cancel), dialogClickListener);
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+            }
+        });
+        builder.show();
     }
 }

@@ -10,11 +10,11 @@ import android.widget.TextView;
 
 
 
-public class CursorManager extends CursorAdapter {
-    public int isNorm;
+class CursorManager extends CursorAdapter {
+    private int isNorm;
 
 
-    public CursorManager(Context context, Cursor cursor) {
+    CursorManager(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
     @Override
@@ -29,9 +29,11 @@ public class CursorManager extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        //Binds the data from the database to each column of the leaderboard.
         TextView l1 = (TextView) view.findViewById(R.id.leaderboard_1);
         TextView l2 = (TextView) view.findViewById(R.id.leaderboard_2);
 
+        //If leaderboard is one of the game type, them fall in here.
         if (isNorm == 1) {
             TextView l3 = (TextView) view.findViewById(R.id.leaderboard_3);
             String userName = cursor.getString(cursor.getColumnIndexOrThrow("USERNAME"));
@@ -42,6 +44,7 @@ public class CursorManager extends CursorAdapter {
             l2.setText(time);
             l3.setText(date);
         }
+        //If the leaderboard is the unfinished puzzles leaderboard, then fall in here.
         else{
             String userName = cursor.getString(cursor.getColumnIndexOrThrow("USERNAME"));
             int unfinished = cursor.getInt(cursor.getColumnIndexOrThrow("UNFINISHED"));
@@ -51,7 +54,8 @@ public class CursorManager extends CursorAdapter {
         }
     }
 
-    public void setLeaderboardType(int isNormal){
+    void setLeaderboardType(int isNormal)
+    {
         isNorm = isNormal;
     }
 }

@@ -9,6 +9,21 @@
         android:layout_height="54dp"
         android:layout_alignParentTop="true" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="100dp"
+        android:layout_height="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/help_button"
+        android:onClick="helpButton"
+        android:text="@string/help_button"
+        android:textSize="15sp"
+        android:layout_alignBottom="@+id/pause" />
+
     <Space
         android:id="@+id/bottom_margin"
         android:layout_width="match_parent"
@@ -78,7 +93,6 @@
             android:id="@+id/puzzle_new_game_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_new_game"
             android:drawablePadding="16dp"
             android:onClick="newGameButtonClicked"
             android:text="@string/new_game_btn_text" />
