@@ -98,7 +98,6 @@ public class BoardAdapter extends BaseAdapter {
         else {
             tileView = new ImageView(mContext);
             tileView.setTag(Constants.TAG_EMPTY_TILE);
-            //TODO empty tile important for triangle!!!!!!
             ((ImageView)tileView).setImageResource(R.drawable.empty_tile);
             tileView.setVisibility(View.VISIBLE);
 
@@ -226,7 +225,10 @@ public class BoardAdapter extends BaseAdapter {
                     view.setTextColor(mContext.getResources().getColor(R.color.black));
                     d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_9),
                             PorterDuff.Mode.MULTIPLY);
-                    break;
+                case 10:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_bkgnd_10),
+                            PorterDuff.Mode.MULTIPLY);
                 default:
                     // log the error
                     Log.e(TAG, "Unsupported number: " + String.valueOf(side));
@@ -282,8 +284,13 @@ public class BoardAdapter extends BaseAdapter {
                             PorterDuff.Mode.MULTIPLY);
                     break;
                 case 9:
-                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
                     d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_blue_9),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 10:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_blue_10),
                             PorterDuff.Mode.MULTIPLY);
                     break;
                 default:
@@ -341,8 +348,13 @@ public class BoardAdapter extends BaseAdapter {
                             PorterDuff.Mode.MULTIPLY);
                     break;
                 case 9:
-                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    view.setTextColor(mContext.getResources().getColor(R.color.white));
                     d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_red_9),
+                            PorterDuff.Mode.MULTIPLY);
+                    break;
+                case 10:
+                    view.setTextColor(mContext.getResources().getColor(R.color.black));
+                    d.mutate().setColorFilter(mContext.getResources().getColor(R.color.tile_red_10),
                             PorterDuff.Mode.MULTIPLY);
                     break;
                 default:
