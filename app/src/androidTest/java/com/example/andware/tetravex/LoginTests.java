@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -23,6 +24,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -83,6 +85,18 @@ public class LoginTests {
         onView(withId(R.id.email)).perform(typeText(""), closeSoftKeyboard());
         onView(withId(R.id.email_sign_in_button)).perform(click());
         onView(withId(R.id.email_sign_in_button)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void pressBackTest(){
+        onView(withId(R.id.email)).check(matches(isDisplayed()));
+        onView(withId(R.id.email)).perform(typeText("Andrew"), closeSoftKeyboard());
+        pressBack();
+        onView(withText(R.string.dialog_quit_game)).check(matches(isDisplayed()));
+        onView(withText(R.string.dialog_cancel)).perform(click());
+        onView(withId(R.id.email_sign_in_button)).check(matches(isDisplayed()));
+        onView(withId(R.id.email_sign_in_button)).perform(click());
+        onView(withId(R.id.classicButton)).check(matches(isDisplayed()));
     }
 
     @After

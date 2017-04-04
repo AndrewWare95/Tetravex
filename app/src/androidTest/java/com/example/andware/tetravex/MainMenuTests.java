@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -63,14 +64,6 @@ public class MainMenuTests {
         onView(withId(R.id.resetButton)).check(matches(isDisplayed()));
     }
 
-    @Test
-    public void checkButtonArcade(){
-        onView(withId(R.id.email)).check(matches(isDisplayed()));
-        onView(withId(R.id.email)).perform(typeText("Andrew"), closeSoftKeyboard());
-        onView(withId(R.id.email_sign_in_button)).perform(click());
-        onView(withId(R.id.unknownTitleButton)).perform(click());
-        onView(withId(R.string.puzzles_completed)).check(matches(isDisplayed()));
-    }
 
     @Test
     public void checkButtonLeaderboard(){
@@ -90,6 +83,30 @@ public class MainMenuTests {
         onView(withId(R.id.email_sign_in_button)).perform(click());
         onView(withId(R.id.settingsButton)).perform(click());
         onView(withText(R.string.description_color_tiles)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkBackButtonConfirm() {
+        onView(withId(R.id.email)).check(matches(isDisplayed()));
+        onView(withId(R.id.email)).perform(typeText("Andrew"), closeSoftKeyboard());
+        onView(withId(R.id.email_sign_in_button)).perform(click());
+        onView(withId(R.id.classicButton)).check(matches(isDisplayed()));
+        pressBack();
+        onView(withText(R.string.dialog_exit_to_login)).check(matches(isDisplayed()));
+        onView(withText(R.string.dialog_ok)).perform(click());
+        onView(withId(R.id.email_sign_in_button)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkBackButtonCancel() {
+        onView(withId(R.id.email)).check(matches(isDisplayed()));
+        onView(withId(R.id.email)).perform(typeText("Andrew"), closeSoftKeyboard());
+        onView(withId(R.id.email_sign_in_button)).perform(click());
+        onView(withId(R.id.classicButton)).check(matches(isDisplayed()));
+        pressBack();
+        onView(withText(R.string.dialog_exit_to_login)).check(matches(isDisplayed()));
+        onView(withText(R.string.dialog_cancel)).perform(click());
+        onView(withId(R.id.classicButton)).check(matches(isDisplayed()));
     }
 
 
