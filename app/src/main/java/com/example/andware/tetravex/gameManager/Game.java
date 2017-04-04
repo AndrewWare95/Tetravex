@@ -1,6 +1,12 @@
 package com.example.andware.tetravex.gameManager;
 
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.example.andware.tetravex.Constants;
+import com.example.andware.tetravex.R;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -9,7 +15,7 @@ import java.util.Random;
  */
 public class Game
 {
-    private final int RAND_COLOR_RANGE = 9;
+    private int RAND_COLOR_RANGE = 9;
 
     public enum PuzzleState {
         NEW,
@@ -38,7 +44,20 @@ public class Game
         difficulty = diff;
         mBoard = new Tile[size * 2][size];
         mRand = new Random();
+        setUpColourRange();
         initializeBoard();
+    }
+
+    private void setUpColourRange(){
+        if (difficulty.matches("Easy")){
+            RAND_COLOR_RANGE = 10;
+        }
+        else if (difficulty.matches("Medium")){
+            RAND_COLOR_RANGE = 9;
+        }
+        else{
+            RAND_COLOR_RANGE = 7;
+        }
     }
 
     private void setup(String difficulty)

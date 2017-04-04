@@ -34,7 +34,7 @@
         android:negativeButtonText="@null"
         android:positiveButtonText="@null" />
 
-    <ListPreference
+    <!--<ListPreference
         android:key="pref_shape_list"
         android:title="@string/title_game_shape"
         android:defaultValue="Square"
@@ -42,5 +42,6 @@
         android:entryValues="@array/shape_list_values"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null" />
+        -->
 
 </PreferenceScreen>
