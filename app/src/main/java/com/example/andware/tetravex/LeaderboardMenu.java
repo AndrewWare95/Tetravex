@@ -18,9 +18,11 @@ public class LeaderboardMenu extends AppCompatActivity {
         Button classicButton=(Button)findViewById(R.id.classicButtonLeaderboard);
         Button timeTrialButton=(Button)findViewById(R.id.timeTrialLeaderboard);
         Button arcadeButton=(Button)findViewById(R.id.arcadeButtonLeaderboard);
+        Button unfinishedButton=(Button)findViewById(R.id.unfinishedLeaderboard);
         classicButton.setTypeface(face);
         timeTrialButton.setTypeface(face);
         arcadeButton.setTypeface(face);
+        unfinishedButton.setTypeface(face);
 
 
         classicButton.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +48,15 @@ public class LeaderboardMenu extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),LeaderboardActivity.class);
                 intent.putExtra("leader", 2);
+                startActivityForResult(intent, 0);
+            }
+        });
+
+        unfinishedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(),LeaderboardActivity.class);
+                intent.putExtra("leader", 3);
                 startActivityForResult(intent, 0);
             }
         });

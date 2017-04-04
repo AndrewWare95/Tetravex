@@ -2,7 +2,6 @@ package com.example.andware.tetravex;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -12,8 +11,6 @@ import android.view.WindowManager;
 
 
 public class SettingsActivity extends PreferenceActivity {
-
-    private static final boolean ALWAYS_SIMPLE_PREFS = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +30,12 @@ public class SettingsActivity extends PreferenceActivity {
         if (!isSimplePreferences(this)) {
             return;
         }
+        //Binding preference to string-array values
         addPreferencesFromResource(R.xml.list);
         bindPreferenceSummaryToValue(findPreference("pref_size_list"));
         bindPreferenceSummaryToValue(findPreference("pref_difficulty_list"));
         bindPreferenceSummaryToValue(findPreference("pref_shape_list"));
+        bindPreferenceSummaryToValue(findPreference("pref_colour_list"));
     }
 
     @Override
@@ -49,7 +48,7 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     private static boolean isSimplePreferences(Context context) {
-        return ALWAYS_SIMPLE_PREFS || Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB || !isXLargeTablet(context);
+        return !isXLargeTablet(context);
     }
 
     private static void bindPreferenceSummaryToValue(Preference preference) {

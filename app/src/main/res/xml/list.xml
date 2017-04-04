@@ -26,6 +26,15 @@
         android:positiveButtonText="@null" />
 
     <ListPreference
+        android:key="pref_colour_list"
+        android:title="@string/title_colour"
+        android:defaultValue="Normal"
+        android:entries="@array/colour_list"
+        android:entryValues="@array/colour_list_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <ListPreference
         android:key="pref_shape_list"
         android:title="@string/title_game_shape"
         android:defaultValue="Square"

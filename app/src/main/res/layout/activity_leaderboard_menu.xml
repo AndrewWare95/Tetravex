@@ -14,13 +14,13 @@
     <Space
         android:id="@+id/top_margin"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="15dp"
         android:layout_alignParentTop="true" />
 
     <Space
         android:id="@+id/bottom_margin"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="20dp"
         android:layout_alignParentBottom="true" />
 
     <Space
@@ -72,6 +72,16 @@
             android:background="@drawable/buttonclick"
             android:text="@string/arcade"
             android:textSize="25sp" />
+        <Button
+            android:id="@+id/unfinishedLeaderboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/buttonclick"
+            android:text="@string/unfinished_leaderboard"
+            />
+
 
     </LinearLayout>
 

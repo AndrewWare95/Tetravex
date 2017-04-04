@@ -6,9 +6,13 @@
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
+    <string name="new_user_added">New User Added</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_username">This username is invalid</string>
+    <string name="error_alphabetical_characters_only">Alphabetical characters only</string>
+    <string name="error_username_too_short">Username minimum 3 characters</string>
+    <string name="error_username_too_long">Username maximum 10 characters</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
@@ -34,13 +38,16 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_reset_scores_prompt">Reset high scores?</string>
     <string name="dialog_quit_game_prompt">Quit current game?</string>
+    <string name="dialog_quit_game">Exit Game?</string>
     <string name="dialog_restart_game">Reset Puzzle</string>
     <string name="scores_deleted">Scores deleted</string>
+    <string name="dialog_exit_to_login">Exit to login screen?</string>
 
 
     <!-- In Game -->
     <string name="puzzle_complete">Puzzle Complete</string>
     <string name="puzzle_failed">Puzzle Failed</string>
+    <string name="number_puzzles_completed">No puzzles Completed</string>
     <string name="back">Back</string>
     <string name="reset">Reset</string>
     <string name="help">Help</string>
@@ -52,9 +59,9 @@
 
 
     <!-- How To -->
-    <string name="how_to_time_trial">Complete the puzzle before the timer runs out</string>
-    <string name="how_to_classic">Complete the puzzle</string>
-    <string name="how_to_arcade">Complete as many puzzles as possible before the timer runs out</string>
+    <string name="how_to_time_trial">Time Trial - Complete the puzzle before the timer runs out. Move the tiles from right to left, matching each edge of the tile with the edges of the other tiles.</string>
+    <string name="how_to_classic">Classic - Complete the puzzle as quickly as you can. Move the tiles from right to left, matching each edge of the tile with the edges of the other tiles.</string>
+    <string name="how_to_arcade">Arcade - Complete as many puzzles as possible before the timer runs out. Move the tiles from right to left, matching each edge of the tile with the edges of the other tiles.</string>
     <string name="help_button">Help ?</string>
 
 
@@ -67,6 +74,9 @@
     <string name="username">Username</string>
     <string name="time">Time</string>
     <string name="date">Date/Time</string>
+    <string name="unfinished_leaderboard">Unfinished</string>
+    <string name="remove_all_scores">Remove All Scores</string>
+    <string name="leader_board_how_to">Leaderboard displays top scores in order. Information displayed depends on current settings. To change just select different values for difficulty or grid size.</string>
 
     <!-- Dashboard -->
     <string name="dashboard_title" translatable="false">Tetravex</string>
@@ -81,9 +91,27 @@
     <string name="pref_color_key" translatable="false">pref_color_tiles</string>
     <string name="pref_difficulty_key" translatable="false">pref_difficulty_list</string>
     <string name="pref_shape_key" translatable="false">pref_shape_list</string>
+    <string name="pref_colour_key" translatable="false">pref_colour_list</string>
 
     <string name="title_color_tiles">Colored tiles</string>
     <string name="description_color_tiles">Each tile number has its own color</string>
+
+    <string name="title_colour">Colour</string>
+    <string name="normal">Normal</string>
+    <string name="blue">Blue</string>
+    <string name="red">Red</string>
+
+    <string-array name="colour_list">
+        <item>@string/normal</item>
+        <item>@string/blue</item>
+        <item>@string/red</item>
+    </string-array>
+
+    <string-array name="colour_list_values">
+        <item>Normal</item>
+        <item>Blue</item>
+        <item>Red</item>
+    </string-array>
 
     <string name="title_size">Size</string>
     <string name="two_x_two" translatable="false">2 x 2</string>
@@ -138,7 +166,7 @@
         <item>Hard</item>
     </string-array>
     <string name="title_activity_classic">Classic</string>
-    <string name="title_activity_how_to">HowTo</string>
+    <string name="title_activity_how_to">Help</string>
 
 
 </resources>

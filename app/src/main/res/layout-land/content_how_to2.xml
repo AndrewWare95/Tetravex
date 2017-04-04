@@ -3,7 +3,7 @@
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="@drawable/background_faded"
+android:background="@drawable/background_landscape_faded"
 android:gravity="top"
 android:paddingBottom="@dimen/activity_vertical_margin"
 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -13,25 +13,25 @@ android:paddingTop="@dimen/activity_vertical_margin" >
 <Space
     android:id="@+id/top_margin"
     android:layout_width="match_parent"
-    android:layout_height="15dp"
+    android:layout_height="10dp"
     android:layout_alignParentTop="true" />
 
 <Space
     android:id="@+id/bottom_margin"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="20dp"
     android:layout_alignParentBottom="true" />
 
 <Space
     android:id="@+id/left_margin"
-    android:layout_width="22dp"
+    android:layout_width="45dp"
     android:layout_height="match_parent"
     android:layout_alignParentLeft="true"
     tools:ignore="RtlHardcoded" />
 
 <Space
     android:id="@+id/right_margin"
-    android:layout_width="22dp"
+    android:layout_width="45dp"
     android:layout_height="match_parent"
     android:layout_alignParentRight="true"
     tools:ignore="RtlHardcoded" />
@@ -52,7 +52,7 @@ android:paddingTop="@dimen/activity_vertical_margin" >
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textStyle=""
-        android:textSize="30sp" />
+        android:textSize="26sp" />
 
 </LinearLayout>
 
