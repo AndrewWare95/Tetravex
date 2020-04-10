@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/StudioProjects-Tetravex.iml" filepath="$PROJECT_DIR$/StudioProjects-Tetravex.iml" group="Tetravex" />
       <module fileurl="file://$PROJECT_DIR$/Tetravex.iml" filepath="$PROJECT_DIR$/Tetravex.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/Tetravex-app.iml" filepath="$PROJECT_DIR$/app/Tetravex-app.iml" group="Tetravex/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
