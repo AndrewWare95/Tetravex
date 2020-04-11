@@ -115,23 +115,7 @@ public class BoardAdapter extends BaseAdapter {
     }
 
     private int getTileWidth(GridView parent) {
-        int width;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            width = parent.getColumnWidth();
-        }
-        else {
-            // workaround since getColumnWidth() is not in older APIs
-            // assumes the width is the same for all children
-            int children = parent.getChildCount();
-            if (children > 0) {
-                width =  parent.getChildAt(0).getMeasuredWidth();
-            }
-            else {
-                width =  parent.getWidth() / parent.getNumColumns();
-            }
-        }
-        return width;
+        return parent.getColumnWidth();
     }
 
     private void setTileViewNumbers(View view, Tile tile) {
@@ -382,6 +366,6 @@ public class BoardAdapter extends BaseAdapter {
                 layoutId = R.layout.tile_3_layout;
                 break;
         }
-        return layoutId;
+        return R.layout.tile_3_layout;
     }
 }

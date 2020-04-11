@@ -10,43 +10,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@drawable/south_white"
-        android:paddingLeft="31dp"
-        android:paddingTop="41dp"
-        android:textSize="26dp"
+        android:background="@drawable/south_white_2_v2"
+        android:gravity="bottom|center"
+        android:text="3"
         android:textColor="@color/black"
-        android:text="3"/>
+        android:textSize="20sp" />
+
+
     <TextView
         android:id="@+id/tile_north"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@drawable/north_white"
-        android:paddingLeft="31dp"
-        android:paddingTop="-1dp"
-        android:textSize="26dp"
+        android:background="@drawable/north_white_2_v2"
+        android:textSize="20sp"
+        android:gravity="center_horizontal"
         android:textColor="@color/black"
         android:text="7"/>
+
     <TextView
         android:id="@+id/tile_west"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:background="@drawable/west_white"
-        android:paddingLeft="6dp"
-        android:paddingTop="20dp"
-        android:textSize="26dp"
+        android:background="@drawable/west_white_2_v2"
+        android:textSize="20sp"
         android:textColor="@color/black"
+        android:paddingLeft="5sp"
+        android:gravity="center_vertical"
         android:text="8"/>
+
+
     <TextView
         android:id="@+id/tile_east"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:background="@drawable/east_white"
-        android:paddingLeft="55dp"
-        android:paddingTop="20dp"
-        android:textSize="26dp"
+        android:background="@drawable/east_white_2_v1"
+        android:textSize="20sp"
+        android:paddingRight="5sp"
+        android:gravity="end|center_vertical"
         android:textColor="@color/black"
         android:text="6"/>
 </RelativeLayout>
