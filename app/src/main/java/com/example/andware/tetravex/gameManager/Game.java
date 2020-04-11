@@ -38,6 +38,12 @@ public class Game
     private PuzzleState state = PuzzleState.NEW;
     private final Random mRand;
 
+    public Game(){
+        mRand = new Random();
+        setUpColourRange();
+        initializeBoard();
+    }
+
     public Game(int size, String diff)
     {
         mSize = size;
