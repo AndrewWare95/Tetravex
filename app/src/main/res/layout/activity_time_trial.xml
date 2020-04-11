@@ -21,6 +21,8 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_margin"
         android:layout_below="@id/top_margin"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:orientation="horizontal">
 
         <include
@@ -28,7 +30,6 @@
             layout="@layout/board_classic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_above="@id/bottom_margin"
             android:layout_below="@id/top_margin"
             android:layout_weight="1" />
@@ -53,7 +54,6 @@
         <include
             android:id="@+id/source_board"
             layout="@layout/board_classic"
-            android:layout_marginRight="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -78,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="16dp"
+            android:background="@drawable/buttonclick"
             android:onClick="newGameButtonClicked"
             android:text="@string/new_game_btn_text" />
     </LinearLayout>
