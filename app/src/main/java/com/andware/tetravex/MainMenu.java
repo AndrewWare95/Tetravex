@@ -1,4 +1,4 @@
-package com.example.andware.tetravex;
+package com.andware.tetravex;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

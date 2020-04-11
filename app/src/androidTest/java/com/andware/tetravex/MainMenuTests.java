@@ -1,4 +1,4 @@
-package com.example.andware.tetravex;
+package com.andware.tetravex;
 
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;

@@ -1,9 +1,8 @@
-package com.example.andware.tetravex;
+package com.andware.tetravex;
 
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.MenuInflater;
 
 import org.junit.After;
 import org.junit.Before;

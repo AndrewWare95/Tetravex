@@ -1,4 +1,4 @@
-package com.example.andware.tetravex;
+package com.andware.tetravex;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -28,9 +28,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.andware.tetravex.gameManager.Game;
-import com.example.andware.tetravex.gameManager.Tile;
-import com.example.andware.tetravex.data.BoardAdapter;
+import com.andware.tetravex.gameManager.Game;
+import com.andware.tetravex.gameManager.Tile;
+import com.andware.tetravex.data.BoardAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
