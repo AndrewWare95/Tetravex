@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.andware.tetravex.MainMenu">
+    tools:context="com.andware.tetravex.MainMenu">
 
     <Space
         android:id="@+id/top_margin"

@@ -1,4 +1,4 @@
-package com.example.andware.tetravex;
+package com.andware.tetravex;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,9 +1,8 @@
-package com.example.andware.tetravex.data;
+package com.andware.tetravex.data;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,10 +13,10 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.andware.tetravex.Constants;
-import com.example.andware.tetravex.R;
-import com.example.andware.tetravex.gameManager.Game;
-import com.example.andware.tetravex.gameManager.Tile;
+import com.andware.tetravex.Constants;
+import com.andware.tetravex.R;
+import com.andware.tetravex.gameManager.Game;
+import com.andware.tetravex.gameManager.Tile;
 
 import static android.view.View.VISIBLE;
 

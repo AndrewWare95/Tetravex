@@ -1,4 +1,4 @@
-package com.example.andware.tetravex;
+package com.andware.tetravex;
 
 import android.graphics.Typeface;
 import android.os.Bundle;

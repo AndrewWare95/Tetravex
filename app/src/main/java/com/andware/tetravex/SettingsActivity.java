@@ -1,4 +1,4 @@
-package com.example.andware.tetravex;
+package com.andware.tetravex;
 
 import android.content.Context;
 import android.content.res.Configuration;

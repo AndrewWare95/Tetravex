@@ -1,11 +1,5 @@
-package com.example.andware.tetravex.gameManager;
+package com.andware.tetravex.gameManager;
 
-
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
-import com.example.andware.tetravex.Constants;
-import com.example.andware.tetravex.R;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -37,6 +31,12 @@ public class Game
     private boolean mColor = true;
     private PuzzleState state = PuzzleState.NEW;
     private final Random mRand;
+
+    public Game(){
+        mRand = new Random();
+        setUpColourRange();
+        initializeBoard();
+    }
 
     public Game(int size, String diff)
     {
