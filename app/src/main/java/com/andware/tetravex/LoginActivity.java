@@ -8,11 +8,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -22,8 +22,7 @@ import android.widget.Toast;
 public class LoginActivity extends AppCompatActivity {
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
-    private View mProgressView;
+    private TextInputEditText mEmailView;
     private View mLoginFormView;
     public DatabaseManager myDb;
 
@@ -43,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
     }
 
 
@@ -153,14 +151,8 @@ public class LoginActivity extends AppCompatActivity {
         return user.length() >= 3;
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
         mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
@@ -169,15 +161,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            }
-        });
-
-        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressView.animate().setDuration(shortAnimTime).alpha(
-                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             }
         });
     }

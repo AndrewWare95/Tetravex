@@ -30,12 +30,12 @@ class CursorManager extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         //Binds the data from the database to each column of the leaderboard.
-        TextView l1 = (TextView) view.findViewById(R.id.leaderboard_1);
-        TextView l2 = (TextView) view.findViewById(R.id.leaderboard_2);
+        TextView l1 = view.findViewById(R.id.leaderboard_1);
+        TextView l2 = view.findViewById(R.id.leaderboard_2);
 
         //If leaderboard is one of the game type, them fall in here.
         if (isNorm == 1) {
-            TextView l3 = (TextView) view.findViewById(R.id.leaderboard_3);
+            TextView l3 = view.findViewById(R.id.leaderboard_3);
             String userName = cursor.getString(cursor.getColumnIndexOrThrow("USERNAME"));
             String time = cursor.getString(cursor.getColumnIndexOrThrow("TIME"));
             String date = cursor.getString(cursor.getColumnIndexOrThrow("DATE"));
