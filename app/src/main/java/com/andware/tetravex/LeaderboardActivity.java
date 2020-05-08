@@ -27,7 +27,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         }
         if (leaderBoardType != 3) {
             setContentView(R.layout.activity_leaderboard_classic);
-            TextView leaderBoardHeading = (TextView) findViewById(R.id.timeTableHeading);
+            TextView leaderBoardHeading = findViewById(R.id.timeTableHeading);
 
             //Set the heading for the middle column depending on the leaderboard type.
             if (leaderBoardType == 0) {
@@ -61,9 +61,8 @@ public class LeaderboardActivity extends AppCompatActivity {
     //This populates the unfinished puzzles table with username and no. of unfinished puzzles.
     public void populateUnfinishedPuzzleTable(){
         myDb = new DatabaseManager(this);
-        //Cursor todoCursor = myDb.getAllData();
         Cursor todoCursor = myDb.getAllUnfinishedData();
-        ListView lvItems = (ListView) findViewById(R.id.list_view_unfinished);
+        ListView lvItems = findViewById(R.id.list_view_unfinished);
         CursorManager todoAdapter = new CursorManager(this, todoCursor);
         todoAdapter.setLeaderboardType(0);
         lvItems.setAdapter(todoAdapter);
@@ -80,7 +79,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         myDb = new DatabaseManager(this);
         Cursor todoCursor = myDb.getFilteredData(difficulty, grid, shape, game);
-        ListView lvItems = (ListView) findViewById(R.id.list_view);
+        ListView lvItems = findViewById(R.id.list_view);
         CursorManager todoAdapter = new CursorManager(this, todoCursor);
 
         todoAdapter.setLeaderboardType(1);

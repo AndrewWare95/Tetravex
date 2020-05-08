@@ -3,7 +3,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_username">Username</string>
+    <string name="prompt_username">Enter username</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="new_user_added">New User Added</string>
@@ -74,7 +74,8 @@
     <string name="username">Username</string>
     <string name="time">Time</string>
     <string name="date">Date/Time</string>
-    <string name="unfinished_leaderboard">Unfinished</string>
+    <string name="unfinished">Unfinished</string>
+    <string name="unfinished_leaderboard">Unfinished Puzzles</string>
     <string name="remove_all_scores">Remove All Scores</string>
     <string name="leader_board_how_to">Leaderboard displays top scores in order. Information displayed depends on current settings. To change just select different values for difficulty or grid size.</string>
 
@@ -168,6 +169,7 @@
     <string name="title_activity_classic">Classic</string>
     <string name="title_activity_how_to">Help</string>
     <string name="tetravex">Tetravex</string>
+    <string name="textview">TextView</string>
 
 
 </resources>
